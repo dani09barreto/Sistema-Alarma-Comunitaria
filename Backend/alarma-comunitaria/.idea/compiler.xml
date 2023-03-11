@@ -2,10 +2,12 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="alarma-comunitaria" />
         <module name="ob-spring-security-jwt" />
         <module name="alarma-comunitaria-backend" />
       </profile>
@@ -13,6 +15,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="alarma-comunitaria" options="-parameters" />
       <module name="alarma-comunitaria-backend" options="-parameters" />
       <module name="ob-spring-security-jwt" options="-parameters" />
     </option>
