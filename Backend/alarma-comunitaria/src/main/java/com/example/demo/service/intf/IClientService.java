@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.service.intf;
 
 import com.example.demo.model.Cliente;
 import org.springframework.stereotype.Service;
