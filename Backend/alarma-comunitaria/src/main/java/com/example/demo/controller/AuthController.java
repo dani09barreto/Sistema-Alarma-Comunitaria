@@ -9,7 +9,7 @@ import com.example.demo.security.jwt.JwtTokenUtil;
 import com.example.demo.security.payload.JwtResponse;
 import com.example.demo.security.payload.MessageResponse;
 import com.example.demo.security.payload.RegisterRequest;
-import com.example.demo.service.IClientService;
+import com.example.demo.service.intf.IClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
