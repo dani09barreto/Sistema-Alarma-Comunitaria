@@ -15,4 +15,5 @@ public interface IClientService {
     Boolean existsByCedula(Long cedula);
     Boolean existsByCorreoElectronico(String correo);
     Boolean existsByCelular(Long celular);
+    Cliente findByCedula(Long cedula);
 }

@@ -49,4 +49,9 @@ public class ClientServiceImp implements IClientService {
     public Boolean existsByCelular(Long celular) {
         return clientRepository.existsByCelular(celular);
     }
+
+    @Override
+    public Cliente findByCedula(Long cedula) {
+        return clientRepository.findByIdentificacion(cedula);
+    }
 }
