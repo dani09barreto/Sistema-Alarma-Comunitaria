@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AlarmSystemApp</string>
+    <string name="snackBar_dismiss_label">Cerrar</string>
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
+    <string name="select_items">Selecciona</string>
+    <string name="textSignOut">¿Deseas cerrar tu sesión?</string>
+</resources>
