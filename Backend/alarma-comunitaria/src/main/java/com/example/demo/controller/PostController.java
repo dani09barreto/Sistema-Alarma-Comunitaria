@@ -5,6 +5,7 @@ import com.example.demo.patterns.builder.CasaBuilder;
 import com.example.demo.patterns.builder.RegistroMovimientoBuilder;
 import com.example.demo.patterns.builder.SensorBuilder;
 import com.example.demo.payload.CasaRequest;
+import com.example.demo.payload.CasaResponse;
 import com.example.demo.payload.RegistryRequest;
 import com.example.demo.payload.SensorRequest;
 import com.example.demo.security.payload.MessageResponse;
@@ -49,7 +50,7 @@ public class PostController {
 
 
     @PostMapping("/add/house")
-    public ResponseEntity <?> createHouse(@RequestBody CasaRequest casaRequest) {
+    public ResponseEntity <CasaResponse> createHouse(@RequestBody CasaRequest casaRequest) {
         Barrio barrio = barrioService.getBarrioById(casaRequest.getBarrioId());
         Cliente cliente = clientService.findByCedula(casaRequest.getIdentificacionCliente());
         Casa casa = new CasaBuilder()
@@ -58,7 +59,7 @@ public class PostController {
                 .setDireccion(casaRequest.getDireccion())
                 .build();
         casaService.saveCasa(casa);
-        return ResponseEntity.ok(new MessageResponse("Casa creada con exito"));
+        return ResponseEntity.ok(new CasaResponse(casa.getId()));
     }
 
     @PostMapping("/add/sensors")
