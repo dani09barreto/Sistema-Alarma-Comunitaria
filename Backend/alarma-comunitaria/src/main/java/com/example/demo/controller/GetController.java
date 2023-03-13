@@ -125,9 +125,22 @@ public class GetController {
                         sensor.getTipoSensor().getNombre()))
                 .forEach(sensorResponses::add);
 
+        // Using sensorResponse get all movements
+        List<Long> sensorIdRegistroMovimientos = new ArrayList<>();
+        //Extract sensor id
+        sensorResponses.stream()
+                .map(sensorResponse -> sensorResponse.getId())
+                .forEach(sensorIdRegistroMovimientos::add);
+
+        // Get all movements by sensor id
+        List<RegistroMovimiento> registroMovimientos = new ArrayList<>();
+        sensorIdRegistroMovimientos.stream()
+                .map(sensorId -> registroMovimientoService.getRegistroMovimientoBySensorId(sensorId))
+                .forEach(registroMovimientos::add);
+
+        return ResponseEntity.ok(registroMovimientos);
 
 
-        return null;
 
     }
 

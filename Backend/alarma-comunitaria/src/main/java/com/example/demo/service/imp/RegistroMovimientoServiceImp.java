@@ -6,7 +6,8 @@ import com.example.demo.service.intf.IRegistroMovimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.Collection;
+import java.util.List;
 
 @Service
 public class RegistroMovimientoServiceImp implements IRegistroMovimientoService {
@@ -20,7 +21,9 @@ public class RegistroMovimientoServiceImp implements IRegistroMovimientoService 
     }
 
     @Override
-    public Optional<RegistroMovimiento> getRegistroMovimientoBySensorId(Long id) {
-        return registroMovimientoRepository.findById(id);
+    public RegistroMovimiento getRegistroMovimientoBySensorId(Long id) {
+        return registroMovimientoRepository.findById(id).orElse(null);
     }
+
+
 }
