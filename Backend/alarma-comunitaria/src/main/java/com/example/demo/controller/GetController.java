@@ -1,12 +1,12 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Barrio;
-import com.example.demo.model.Ciudad;
-import com.example.demo.model.Departamento;
-import com.example.demo.model.Pais;
+import ch.qos.logback.core.net.server.Client;
+import com.example.demo.model.*;
+import com.example.demo.payload.request.CasaRequest;
 import com.example.demo.payload.response.BarrioResponse;
 import com.example.demo.payload.response.CiudadResponse;
 import com.example.demo.payload.response.DepartamentoResponse;
+import com.example.demo.payload.response.SensorResponse;
 import com.example.demo.service.intf.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api/get")
@@ -62,29 +63,49 @@ public class GetController {
 
 
     // Get Methods
-    @GetMapping ("/all/houses")
-    public ResponseEntity<?> getAllHouses() {
-        return ResponseEntity.ok(casaService.getAllCasas());
-    }
 
     // Get house by id
-    @GetMapping ("/house/{id}")
+    @GetMapping ("/house/id={id}")
     public ResponseEntity<?> getHouseById(@PathVariable Long id) {
-        return ResponseEntity.ok(casaService.getCasaById(id));
+        CasaRequest casaRequest = new CasaRequest();
+        Casa casa = casaService.getCasaById(id);
+        // Get client by id
+        casaRequest.setIdentificacionCliente(casa.getIdentificacionCliente());
+        Optional<Cliente> client = clientService.findById(casa.getIdentificacionCliente());
+        casaRequest.setNombre(client.get().getNombre());
+
+        // Get barrio by id
+        Barrio barrio = barrioService.getBarrioById(casa.getBarrio().getId());
+        casaRequest.setBarrioId(casa.getBarrio().getId());
+        casaRequest.setBarrioNombre(barrio.getNombre());
+        casaRequest.setDireccion(casa.getDireccion());
+        return ResponseEntity.ok(casaRequest);
+
     }
 
-    // Get tipos de sensores
+
     @GetMapping ("/all/sensortypes")
     public ResponseEntity<?> getAllSensorTypes() {
         return ResponseEntity.ok(tipoSensorService.getAllTipoSensores());
     }
 
-    // Get client by id
-    @GetMapping ("/client/{id}")
-    public ResponseEntity<?> getClientById(Long id) {
-        return ResponseEntity.ok(clientService.findById(id));
-    }
+    // Sensor by house id
+    @GetMapping ("/house/id={id}/sensors")
+    public ResponseEntity<?> getSensorsByHouseId(@PathVariable Long id) {
+        Casa casa = casaService.getCasaById(id);
+        // Get all sensors
+        List<Sensor> sensores = sensorService.getAllSensors();
+        //  Cast to sensorResponse
+        List<SensorResponse> sensorResponses = new ArrayList<>();
 
+        sensores.stream()
+                .filter(sensor -> sensor.getCasa().getId().equals(casa.getId()))
+                .map(sensor -> new SensorResponse(sensor.getId(), sensor.getTipoSensor().getNombre(), sensor.getCasa().getId()))
+                .forEach(sensorResponses::add);
+
+        return ResponseEntity.ok(sensorResponses);
+
+    }
 
     @GetMapping("/all/countries")
     public ResponseEntity<?> getAllCountries() {
@@ -130,5 +151,6 @@ public class GetController {
 
         return ResponseEntity.ok(barrioResponses);
     }
+
 
 }
