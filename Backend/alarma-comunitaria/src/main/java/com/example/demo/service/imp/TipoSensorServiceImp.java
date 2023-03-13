@@ -16,4 +16,9 @@ public class TipoSensorServiceImp implements ITipoSensorService {
     public TipoSensor getTipoSensorById(Long id) {
         return tipoSensorRepository.findById(id).get();
     }
+
+    @Override
+    public Object getAllTipoSensores() {
+        return tipoSensorRepository.findAll();
+    }
 }

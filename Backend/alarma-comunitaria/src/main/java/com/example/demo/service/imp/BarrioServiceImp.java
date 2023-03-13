@@ -16,4 +16,10 @@ public class BarrioServiceImp implements IBarrioService {
     public Barrio getBarrioById(Long id) {
         return barrioRepository.findById(id).get();
     }
+
+    @Override
+    public Object getAllBarrios() {
+
+        return barrioRepository.findAll();
+    }
 }

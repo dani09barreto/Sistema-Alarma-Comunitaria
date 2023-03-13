@@ -6,4 +6,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ITipoSensorService {
     TipoSensor getTipoSensorById(Long id);
+
+    Object getAllTipoSensores();
 }

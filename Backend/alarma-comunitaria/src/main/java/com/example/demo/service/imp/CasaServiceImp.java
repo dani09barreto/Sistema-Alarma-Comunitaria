@@ -20,4 +20,9 @@ public class CasaServiceImp implements ICasaService {
     public Casa getCasaById(Long id) {
         return casaRepository.findById(id).get();
     }
+
+    @Override
+    public Object getAllCasas() {
+        return casaRepository.findAll();
+    }
 }

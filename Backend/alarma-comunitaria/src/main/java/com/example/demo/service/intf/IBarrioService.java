@@ -6,4 +6,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface IBarrioService {
     Barrio getBarrioById(Long id);
+
+    Object getAllBarrios();
 }

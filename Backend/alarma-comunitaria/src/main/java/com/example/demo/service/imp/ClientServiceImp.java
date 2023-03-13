@@ -54,4 +54,9 @@ public class ClientServiceImp implements IClientService {
     public Cliente findByCedula(Long cedula) {
         return clientRepository.findByIdentificacion(cedula);
     }
+
+    @Override
+    public List<Cliente> getAllClients() {
+        return clientRepository.findAll();
+    }
 }
