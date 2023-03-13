@@ -7,4 +7,6 @@ import org.springframework.stereotype.Service;
 public interface ICasaService {
     Casa saveCasa(Casa casa);
     Casa getCasaById(Long id);
+
+    Object getAllCasas();
 }
