@@ -1,17 +1,15 @@
-package com.example.demo.payload;
+package com.example.demo.payload.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class SensorRequest {
-    private List <Long> idTipoSensor;
-    private Long idCasa;
+public class BarrioResponse {
+    private Long id;
+    private String nombre;
 }

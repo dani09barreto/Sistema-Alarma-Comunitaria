@@ -6,6 +6,8 @@ import com.example.demo.service.intf.IPaisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PaisServiceImp implements IPaisService {
     @Autowired
@@ -13,6 +15,14 @@ public class PaisServiceImp implements IPaisService {
 
     @Override
     public Pais getPaisById(Long id) {
-        return paisRepository.findById(id).get();
+        if (paisRepository.findById(id).isPresent()) {
+            return paisRepository.findById(id).get();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Pais> getAllPaises() {
+        return paisRepository.findAll();
     }
 }
