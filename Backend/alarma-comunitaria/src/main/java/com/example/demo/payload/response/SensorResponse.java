@@ -13,7 +13,12 @@ import lombok.Setter;
 public class SensorResponse {
 
     private Long id;
-    private String tipoSensor;
     private Long casaId;
+
+    private Long idTipoSensor;
+    private String tipoSensor;
+
+
+
 
 }

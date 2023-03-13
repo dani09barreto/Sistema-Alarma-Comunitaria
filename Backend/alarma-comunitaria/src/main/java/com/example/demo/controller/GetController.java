@@ -100,10 +100,34 @@ public class GetController {
 
         sensores.stream()
                 .filter(sensor -> sensor.getCasa().getId().equals(casa.getId()))
-                .map(sensor -> new SensorResponse(sensor.getId(), sensor.getTipoSensor().getNombre(), sensor.getCasa().getId()))
+                .map(sensor -> new SensorResponse(sensor.getId(),sensor.getCasa().getId(),
+                                                    sensor.getTipoSensor().getId(),
+                                                    sensor.getTipoSensor().getNombre()))
                 .forEach(sensorResponses::add);
 
         return ResponseEntity.ok(sensorResponses);
+
+    }
+
+    // Get house by id and return all movements
+    @GetMapping ("/house/id={id}/sensors/movements")
+    public ResponseEntity<?> getMovementsByHouseId(@PathVariable Long id) {
+        Casa casa = casaService.getCasaById(id);
+        // Get all sensors
+        List<Sensor> sensores = sensorService.getAllSensors();
+        //  Cast to sensorResponse
+        List<SensorResponse> sensorResponses = new ArrayList<>();
+
+        sensores.stream()
+                .filter(sensor -> sensor.getCasa().getId().equals(casa.getId()))
+                .map(sensor -> new SensorResponse(sensor.getId(),sensor.getCasa().getId(),
+                        sensor.getTipoSensor().getId(),
+                        sensor.getTipoSensor().getNombre()))
+                .forEach(sensorResponses::add);
+
+
+
+        return null;
 
     }
 
