@@ -1,4 +1,4 @@
-package com.edu.alarmsystem.models;
+package com.example.demo.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CasaRequest {
-    private Long identificacionCliente;
-    private Long barrioId;
-    private String direccion;
+public class CasaResponse {
+    private Long casaId;
 }
