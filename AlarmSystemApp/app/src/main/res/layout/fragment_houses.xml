@@ -24,7 +24,7 @@
         android:id="@+id/labelHouses"
         android:layout_width="231dp"
         android:layout_height="24dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="70dp"
         android:text="Añadir Casa"
         android:textAlignment="center"
         android:textColor="@color/black_1000"
@@ -132,14 +132,22 @@
         app:layout_constraintTop_toBottomOf="@+id/houseDistrict" />
 
 
-    <Spinner
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/houseAddress"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelAddress"/>
+        app:layout_constraintTop_toBottomOf="@+id/labelAddress">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
 
     <com.google.android.material.button.MaterialButton
