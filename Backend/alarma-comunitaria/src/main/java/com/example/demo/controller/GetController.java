@@ -3,10 +3,7 @@ package com.example.demo.controller;
 import ch.qos.logback.core.net.server.Client;
 import com.example.demo.model.*;
 import com.example.demo.payload.request.CasaRequest;
-import com.example.demo.payload.response.BarrioResponse;
-import com.example.demo.payload.response.CiudadResponse;
-import com.example.demo.payload.response.DepartamentoResponse;
-import com.example.demo.payload.response.SensorResponse;
+import com.example.demo.payload.response.*;
 import com.example.demo.service.intf.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -131,6 +128,9 @@ public class GetController {
         sensorResponses.stream()
                 .map(sensorResponse -> sensorResponse.getId())
                 .forEach(sensorIdRegistroMovimientos::add);
+        // Print sensor id
+        sensorIdRegistroMovimientos.stream()
+                .forEach(System.out::println);
 
         // Get all movements by sensor id
         List<RegistroMovimiento> registroMovimientos = new ArrayList<>();
@@ -138,7 +138,23 @@ public class GetController {
                 .map(sensorId -> registroMovimientoService.getRegistroMovimientoBySensorId(sensorId))
                 .forEach(registroMovimientos::add);
 
-        return ResponseEntity.ok(registroMovimientos);
+        // Print movements
+        registroMovimientos.stream()
+                .forEach(System.out::println);
+
+        //Clear null values
+        registroMovimientos.removeIf(registroMovimiento -> registroMovimiento == null);
+
+
+        //Cast to MovimientoResponse
+        List<MovimientoResponse> movimientoResponses = new ArrayList<>();
+        registroMovimientos.stream()
+                .map(registroMovimiento -> new MovimientoResponse(registroMovimiento.getId(),
+                        registroMovimiento.getFecha(),
+                        registroMovimiento.getSensor().getId()))
+                .forEach(movimientoResponses::add);
+
+        return ResponseEntity.ok(movimientoResponses);
 
 
 
