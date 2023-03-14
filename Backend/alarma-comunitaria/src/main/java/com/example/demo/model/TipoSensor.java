@@ -28,4 +28,5 @@ public class TipoSensor {
     public TipoSensor (String nombre){
         this.nombre = nombre;
     }
+
 }
