@@ -2,6 +2,7 @@ package com.example.demo.service.intf;
 
 import ch.qos.logback.core.net.server.Client;
 import com.example.demo.model.Cliente;
+import com.example.demo.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,5 +18,6 @@ public interface IClientService {
     Boolean existsByCorreoElectronico(String correo);
     Boolean existsByCelular(Long celular);
     Cliente findByCedula(Long cedula);
+    Cliente findByUsuario(User usuario);
 
 }

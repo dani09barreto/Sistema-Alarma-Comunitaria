@@ -173,7 +173,7 @@ public class SignUpActivity extends Activity {
             e.printStackTrace();
         }
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody, response -> {
-            startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
             try {
                 new AlertsHelper().shortToast(getApplicationContext(),response.getString("message"));
             } catch (JSONException e) {

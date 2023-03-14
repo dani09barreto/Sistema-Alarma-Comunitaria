@@ -9,8 +9,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CasaRequest {
-    private Long identificacionCliente;
-    private Long barrioId;
-    private String direccion;
+public class TypeSensors {
+    private Long id;
+    private String nombre;
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
 }

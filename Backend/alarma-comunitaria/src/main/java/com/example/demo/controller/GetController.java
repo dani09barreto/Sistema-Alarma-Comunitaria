@@ -58,6 +58,10 @@ public class GetController {
     @Autowired
     private ICiudadService ciudadService;
 
+    @Qualifier("userServiceImp")
+    @Autowired
+    private IUserService userService;
+
 
     // Get Methods
 
@@ -78,6 +82,34 @@ public class GetController {
         casaRequest.setDireccion(casa.getDireccion());
         return ResponseEntity.ok(casaRequest);
 
+    }
+
+    @GetMapping("/user={id}/house")
+    public ResponseEntity<?> getHouseByClient(@PathVariable Long id) {
+        Cliente cliente = clientService.findById(id).get();
+        Casa casa = casaService.getCasaByCliente(cliente);
+        if (casa == null){
+            return ResponseEntity.noContent().build();
+        }
+        CasaResponse casaResponse = new CasaResponse(
+                casa.getId(),
+                casa.getDireccion(),
+                cliente.getId(),
+                casa.getBarrio().getId()
+        );
+        return ResponseEntity.ok(casaResponse);
+    }
+
+
+    @GetMapping("/user={username}")
+    public ResponseEntity<?> getUserByUsername(@PathVariable String username) {
+        User user = userService.findByUsername(username);
+        Cliente cliente = clientService.findByUsuario(user);
+        UserResponse userResponse = new UserResponse(
+                cliente.getId(),
+                cliente.getIdentificacion()
+        );
+        return ResponseEntity.ok(userResponse);
     }
 
 
