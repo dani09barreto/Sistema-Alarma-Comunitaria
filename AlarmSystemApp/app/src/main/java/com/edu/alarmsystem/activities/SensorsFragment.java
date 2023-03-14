@@ -39,7 +39,7 @@ public class SensorsFragment extends Fragment {
         binding.spinnerSensors.setAdapter(adapter);
 
         binding.btnBack.setOnClickListener(v ->{
-            startActivity(new Intent(getContext(),HomeActivity.class));
+            getActivity().onBackPressed();
         });
     }
 

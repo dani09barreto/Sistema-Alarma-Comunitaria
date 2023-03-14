@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingRight="30dp"
-    android:paddingLeft="30dp"
+    android:paddingRight="35dp"
+    android:paddingLeft="35dp"
     tools:context=".activities.HousesFragment">
 
     <ImageButton
@@ -24,7 +24,7 @@
         android:id="@+id/labelHouses"
         android:layout_width="231dp"
         android:layout_height="24dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:text="Añadir Casa"
         android:textAlignment="center"
         android:textColor="@color/black_1000"
@@ -33,108 +33,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+
     <TextView
-        android:id="@+id/labelSensors"
+        android:id="@+id/labelCountry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Selecciona los sensores"
+        android:layout_marginTop="25dp"
+        android:text="País"
         android:textColor="@color/black_1000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelHouses" />
 
 
-    <com.edu.alarmsystem.utils.MultiSelectionSpinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dropdown"
-        android:drawableStart="@drawable/ic_check_box_outline_blank_black_24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelSensors"/>
-
-    <TextView
-        android:id="@+id/labelAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Dirección"
-        android:textColor="@color/black_1000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/houseAddress"
+    <Spinner
+        android:id="@+id/houseCountry"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelAddress">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPostalAddress" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/labelDistrict"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Barrio"
-        android:textColor="@color/black_1000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/houseAddress" />
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/houseDistrict"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelDistrict">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/labelCity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Ciudad"
-        android:textColor="@color/black_1000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/houseDistrict" />
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/houseCity"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelCity">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text" />
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toBottomOf="@+id/labelCountry"/>
 
     <TextView
         android:id="@+id/labelDepartment"
@@ -145,55 +65,86 @@
         android:textColor="@color/black_1000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/houseCity" />
+        app:layout_constraintTop_toBottomOf="@+id/houseCountry" />
 
 
-    <com.google.android.material.textfield.TextInputLayout
+    <Spinner
         android:id="@+id/houseDepartment"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelDepartment">
+        app:layout_constraintTop_toBottomOf="@+id/labelDepartment"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/labelCountry"
+        android:id="@+id/labelCity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="País"
+        android:text="Ciudad"
         android:textColor="@color/black_1000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/houseDepartment" />
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/houseCountry"
+    <Spinner
+        android:id="@+id/houseCity"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelCountry">
+        app:layout_constraintTop_toBottomOf="@+id/labelCity"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text" />
-    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/labelDistrict"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Barrio"
+        android:textColor="@color/black_1000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/houseCity" />
+
+
+    <Spinner
+        android:id="@+id/houseDistrict"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelDistrict"/>
+
+    <TextView
+        android:id="@+id/labelAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Dirección"
+        android:textColor="@color/black_1000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/houseDistrict" />
+
+
+    <Spinner
+        android:id="@+id/houseAddress"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelAddress"/>
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/my_button"
-        android:layout_width="wrap_content"
+        android:id="@+id/addHouseBtn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:textAllCaps="false"
@@ -206,7 +157,7 @@
         app:cornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/houseCountry" />
+        app:layout_constraintTop_toBottomOf="@+id/houseAddress" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

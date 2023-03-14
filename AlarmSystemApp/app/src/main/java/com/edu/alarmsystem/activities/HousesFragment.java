@@ -1,5 +1,6 @@
 package com.edu.alarmsystem.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -7,76 +8,102 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
-import android.widget.Toast;
+import android.widget.Spinner;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.HttpStack;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.edu.alarmsystem.R;
 import com.edu.alarmsystem.databinding.FragmentHousesBinding;
-import com.edu.alarmsystem.databinding.FragmentSensorsBinding;
-import com.edu.alarmsystem.utils.MultiSelectionSpinner;
+import com.edu.alarmsystem.models.Pais;
+import com.edu.alarmsystem.utils.AlertsHelper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManagerFactory;
 
 
-public class HousesFragment extends Fragment implements MultiSelectionSpinner.MultiSpinnerListener{
-
+public class HousesFragment extends Fragment {
 
     private FragmentHousesBinding binding;
+    private String token;
+    private String countries;
 
-    MultiSelectionSpinner spinner;
-    List<String> items = Arrays.asList("Sensor Lumínico", "Sensor de Presión","Sensor de Movimiento");
-    boolean[] selectedItems;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHousesBinding.inflate(inflater);
+        token = getArguments().getString("token");
         return binding.getRoot();
     }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        spinner = binding.spinner;
-        spinner.setItems(items, getString(R.string.select_items), this);
-        selectedItems = new boolean[items.size()];
-        Arrays.fill(selectedItems, false);
-
         binding.btnBack.setOnClickListener(v ->{
-            startActivity(new Intent(getContext(),HomeActivity.class));
+            getActivity().onBackPressed();
         });
 
-    }
 
-    @Override
-    public void onItemsSelected(boolean[] selected) {
-        selectedItems = selected;
-        String selectedItemsCount = String.valueOf(getSelectedItems().size()) + " elementos seleccionados";
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Collections.singletonList(selectedItemsCount));
-        spinner.setAdapter(adapter);
-    }
-
-    private List<String> getSelectedItems() {
-        List<String> selectedItems = new ArrayList<>();
-        for (int i = 0; i < items.size(); i++) {
-            if (this.selectedItems[i]) {
-                selectedItems.add(items.get(i));
-            }
+        /*String jsonString = null;
+        try {
+            jsonString = getCountries(token);
+            System.out.println("HOLAAA"+jsonString);
+        } catch (KeyManagementException | KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException e) {
+            e.printStackTrace();
         }
-        return selectedItems;
+
+       List<Map<String, String>> paises = new Gson().fromJson(jsonString, new TypeToken<List<Map<String, String>>>(){}.getType());
+
+        List<String> nombresPaises = new ArrayList<>();
+        for (Map<String, String> pais : paises) {
+            nombresPaises.add(pais.get("nombre"));
+        }
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, nombresPaises);
+        binding.houseCountry.setAdapter(adapter);*/
+
     }
 
 

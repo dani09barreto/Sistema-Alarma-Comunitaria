@@ -1,10 +1,13 @@
 package com.edu.alarmsystem.activities;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -41,6 +44,9 @@ import javax.net.ssl.TrustManagerFactory;
 public class LoginActivity extends Activity {
 
     private ActivityLoginBinding binding;
+    Bundle bundle = new Bundle();
+    HousesFragment fragment = new HousesFragment();
+    FragmentTransaction transaction;
 
 
     @Override
@@ -83,12 +89,22 @@ public class LoginActivity extends Activity {
         //Poner dirección IP del Endpoint donde se aloja el backend - Quitar localhost///
         String url = "https://192.168.80.16:8443/api/auth/login";
 
+
+
         if(binding.user.getEditText().getText().toString().isEmpty() && binding.user.getEditText().getText().toString().isEmpty()){
             alertsHelper.shortToast(getApplicationContext(),"Ingresa todos los datos");
         } else {
             StringRequest postRequest = new StringRequest(Request.Method.POST, url, response -> {
-                startActivity(new Intent(this, HomeActivity.class));
-                alertsHelper.shortToast(getApplicationContext(), response.toString());
+                try {
+                    alertsHelper.shortToast(getApplicationContext(), new JSONObject(response).getString("token"));
+                    bundle = new Bundle();
+                    bundle.putString("token", new JSONObject(response).getString("token"));
+                    Intent intent = new Intent(this, HomeActivity.class);
+                    intent.putExtra("token",new JSONObject(response).getString("token"));
+                    startActivity(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }, error -> {
                 if (error.networkResponse != null && error.networkResponse.data != null) {
                     try {
