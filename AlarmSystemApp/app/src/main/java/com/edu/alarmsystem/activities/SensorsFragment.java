@@ -20,15 +20,21 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.edu.alarmsystem.R;
+import com.edu.alarmsystem.adapters.TypeSensorAdapter;
 import com.edu.alarmsystem.databinding.FragmentSensorsBinding;
 import com.edu.alarmsystem.models.CasaResponse;
+import com.edu.alarmsystem.models.TypeSensors;
 import com.edu.alarmsystem.models.UserResponse;
 import com.edu.alarmsystem.utils.AlertsHelper;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.security.KeyStore;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -58,6 +64,8 @@ public class SensorsFragment extends Fragment {
     private AlertsHelper alertsHelper = new AlertsHelper();
     public UserResponse userResponse;
     public CasaResponse casaResponse;
+    TypeSensorAdapter adapter;
+    List <TypeSensors> typeSensorsList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -117,9 +125,60 @@ public class SensorsFragment extends Fragment {
         HurlStack hurlStack = new HurlStack(null, sslSocketFactory);
         RequestQueue requestQueue = Volley.newRequestQueue(getContext(), hurlStack);
         requestQueue.add(getRequest);
+
         binding.btnBack.setOnClickListener(v ->{
             getActivity().onBackPressed();
         });
+
+        getTypeSensors();
+    }
+
+    @SneakyThrows
+    private void getTypeSensors() {
+        InputStream caInput = getResources().openRawResource(R.raw.server);
+        KeyStore keyStore = KeyStore.getInstance("PKCS12");
+        keyStore.load(caInput, "Alarma123.".toCharArray());
+
+        // crea un administrador de confianza de SSL personalizado que confía en el certificado
+        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(
+                TrustManagerFactory.getDefaultAlgorithm());
+        trustManagerFactory.init(keyStore);
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(null, trustManagerFactory.getTrustManagers(), null);
+        SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+
+        HostnameVerifier allHostsValid = new HostnameVerifier() {
+            public boolean verify(String hostname, SSLSession session) {
+                return true;
+            }
+        };
+
+        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+
+        String url = "https://192.168.1.105:8443/api/get/all/sensortypes";
+
+        StringRequest getRequest = new StringRequest(Request.Method.GET, url,
+                response -> {
+                    Gson gson = new Gson();
+                    Type sensorListType = new TypeToken<ArrayList<TypeSensors>>(){}.getType();
+                    List<TypeSensors> sensorList = gson.fromJson(response, sensorListType);
+                    adapter = new TypeSensorAdapter(getContext(), R.layout.type_sensor_adapter, sensorList);
+                    binding.filledExposed.setAdapter(adapter);
+                },
+                error -> {
+                    alertsHelper.shortToast(getContext(), error.getMessage());
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+        };
+        HurlStack hurlStack = new HurlStack(null, sslSocketFactory);
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext(), hurlStack);
+        requestQueue.add(getRequest);
     }
 
     @SneakyThrows
@@ -141,21 +200,26 @@ public class SensorsFragment extends Fragment {
                 return true;
             }
         };
+
+        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+
         @SuppressLint("DefaultLocale")
-        String urlget = String.format("https://localhost:8443/api/get/user=%d/house", userResponse.getId());
+        String urlget = String.format("https://192.168.1.105:8443/api/get/user=%d/house", userResponse.getId());
         StringRequest getRequest = new StringRequest(Request.Method.GET, urlget,
                 response2 -> {
-                    Gson gson2 = new Gson();
-                    casaResponse = gson2.fromJson(response2, CasaResponse.class);
-                    binding.textaddresshouse.setText(String.format("Casa: %s", casaResponse.getDireccion()));
-                    binding.myButton.setEnabled(true);
-                    binding.spinnerSensors.setEnabled(true);
-                    binding.cantSensor.setEnabled(true);
+                    if(response2.isEmpty()) {
+                        binding.textError.setText("No tienes una casa asignada, Primero debes crear una!");
+                    } else {
+                        Gson gson2 = new Gson();
+                        casaResponse = gson2.fromJson(response2, CasaResponse.class);
+                        binding.textaddresshouse.setText(String.format("Casa: %s", casaResponse.getDireccion()));
+                        binding.myButton.setEnabled(true);
+                        binding.spinnerSensors.setEnabled(true);
+                        binding.cantSensor.setEnabled(true);
+                    }
                 },
                 error -> {
-                    if (error.networkResponse != null && error.networkResponse.statusCode == 204) {
-                        binding.textError.setText("No tienes una casa asignada, Primero debes crear una!");
-                    }
+                    alertsHelper.shortToast(getContext(), error.getMessage());
                 }
         ) {
             @Override

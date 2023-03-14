@@ -23,22 +23,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="24dp"
         android:text="Selecciona el tipo de sensor: "
+        android:layout_marginEnd="24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textError" />
+        app:layout_constraintTop_toBottomOf="@+id/textaddresshouse" />
 
-    <Spinner
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/spinnerSensors"
-        android:layout_width="350dp"
-        android:layout_height="30dp"
-        android:layout_margin="20dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:hint="Tipo de sensor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.475"
-        android:enabled="false"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelSensorType" />
+        app:layout_constraintTop_toBottomOf="@+id/labelSensorType">
+
+        <AutoCompleteTextView
+            android:id="@+id/filled_exposed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="none"
+            tools:ignore="LabelFor" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/labelNumSensors"
@@ -53,12 +64,13 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/cantSensor"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="350dp"
-        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.459"
+        android:layout_marginEnd="250dp"
         android:enabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelNumSensors">
 
@@ -75,6 +87,7 @@
         android:layout_marginTop="28dp"
         android:elevation="8dp"
         android:gravity="center"
+        android:enabled="false"
         android:letterSpacing="0"
         android:text="Agregar"
         android:textAllCaps="false"
@@ -102,11 +115,11 @@
         android:id="@+id/textError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="28dp"
-        android:textColor="@color/red_600"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
 
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/red_600"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleSensors" />
 
     <TextView
@@ -114,10 +127,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="36dp"
         android:text="Casa: "
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleSensors" />
+        app:layout_constraintTop_toBottomOf="@+id/textError" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

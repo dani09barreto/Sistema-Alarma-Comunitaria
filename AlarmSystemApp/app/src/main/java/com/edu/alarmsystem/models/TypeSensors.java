@@ -11,5 +11,10 @@ import lombok.Setter;
 @Setter
 public class TypeSensors {
     private Long id;
-    private String name;
+    private String nombre;
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
 }
