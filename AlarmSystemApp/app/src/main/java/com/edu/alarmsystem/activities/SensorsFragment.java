@@ -26,8 +26,13 @@ import com.edu.alarmsystem.models.UserResponse;
 import com.edu.alarmsystem.utils.AlertsHelper;
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.security.KeyManagementException;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -40,10 +45,6 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -76,15 +77,46 @@ public class SensorsFragment extends Fragment {
         username = requireArguments().getString("currentUsername");
 
         InputStream caInput = getResources().openRawResource(R.raw.server);
-        KeyStore keyStore = KeyStore.getInstance("PKCS12");
-        keyStore.load(caInput, "Alarma123.".toCharArray());
+        KeyStore keyStore = null;
+        try {
+            keyStore = KeyStore.getInstance("PKCS12");
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+        }
+        try {
+            keyStore.load(caInput, "Alarma123.".toCharArray());
+        } catch (CertificateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
 
         // crea un administrador de confianza de SSL personalizado que confía en el certificado
-        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(
-                TrustManagerFactory.getDefaultAlgorithm());
-        trustManagerFactory.init(keyStore);
-        SSLContext sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(null, trustManagerFactory.getTrustManagers(), null);
+        TrustManagerFactory trustManagerFactory = null;
+        try {
+            trustManagerFactory = TrustManagerFactory.getInstance(
+                    TrustManagerFactory.getDefaultAlgorithm());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        try {
+            trustManagerFactory.init(keyStore);
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+        }
+        SSLContext sslContext = null;
+        try {
+            sslContext = SSLContext.getInstance("TLS");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        try {
+            sslContext.init(null, trustManagerFactory.getTrustManagers(), null);
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        }
         SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
         HostnameVerifier allHostsValid = new HostnameVerifier() {
@@ -95,13 +127,25 @@ public class SensorsFragment extends Fragment {
 
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 
-        String url = String.format("https://192.168.1.105:8443/api/get/user=%s", username);
+        String url = String.format("https://192.168.80.16:8443/api/get/user=%s", username);
 
         StringRequest getRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
                     Gson gson = new Gson();
                     userResponse = gson.fromJson(response, UserResponse.class);
-                    getInfoHouse(userResponse);
+                    try {
+                        getInfoHouse(userResponse);
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    } catch (KeyStoreException e) {
+                        e.printStackTrace();
+                    } catch (KeyManagementException e) {
+                        e.printStackTrace();
+                    } catch (CertificateException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 },
                 error -> {
                     alertsHelper.shortToast(getContext(), error.getMessage());
@@ -123,7 +167,7 @@ public class SensorsFragment extends Fragment {
     }
 
     @SneakyThrows
-    private void getInfoHouse(UserResponse userResponse) {
+    private void getInfoHouse(UserResponse userResponse) throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException, CertificateException, IOException {
         InputStream caInput = getResources().openRawResource(R.raw.server);
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
         keyStore.load(caInput, "Alarma123.".toCharArray());
@@ -142,7 +186,7 @@ public class SensorsFragment extends Fragment {
             }
         };
         @SuppressLint("DefaultLocale")
-        String urlget = String.format("https://localhost:8443/api/get/user=%d/house", userResponse.getId());
+        String urlget = String.format("https://192.168.80.16:8443/api/get/user=%d/house", userResponse.getId());
         StringRequest getRequest = new StringRequest(Request.Method.GET, urlget,
                 response2 -> {
                     Gson gson2 = new Gson();

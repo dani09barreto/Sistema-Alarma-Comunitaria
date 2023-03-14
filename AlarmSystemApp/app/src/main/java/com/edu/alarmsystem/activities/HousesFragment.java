@@ -1,11 +1,6 @@
 package com.edu.alarmsystem.activities;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +8,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.edu.alarmsystem.R;
 import com.edu.alarmsystem.databinding.FragmentHousesBinding;
@@ -53,11 +51,14 @@ import javax.net.ssl.TrustManagerFactory;
 public class HousesFragment extends Fragment {
 
     private FragmentHousesBinding binding;
+    private HomeFragment homeFragment = new HomeFragment();
     private String token;
+    private String username;
     List<Map<String, String>> paises = new ArrayList<>();
     List<Map<String, String>> departamentos = new ArrayList<>();
     List<Map<String, String>> ciudades = new ArrayList<>();
     List<Map<String, String>> barrios = new ArrayList<>();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,7 +83,8 @@ public class HousesFragment extends Fragment {
             getActivity().onBackPressed();
         });
 
-        String token = getArguments().getString("token");
+        token = getArguments().getString("token");
+        username = requireArguments().getString("currentUsername");
 
 
         try {
@@ -195,6 +197,50 @@ public class HousesFragment extends Fragment {
             }
         });
 
+        binding.houseDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedDistrict = parent.getItemAtPosition(position).toString();
+                for (Map<String, String> distr : barrios) {
+                    if (distr.get("nombre").equals(selectedDistrict)) {
+                        try {
+                            getIdentificationClient(token, username, response -> {
+                               binding.addHouseBtn.setOnClickListener(v -> {
+                                   try {
+                                       if(binding.houseAddress.getEditText().getText().toString().isEmpty()) {
+                                           new AlertsHelper().shortToast(getContext(), "Debes llenar todos los campos");
+                                       } else {
+                                           addHouse(new JSONObject(response).getInt("identificacion"), distr.get("id"));
+                                       }
+                                   } catch (CertificateException e) {
+                                       e.printStackTrace();
+                                   } catch (KeyStoreException e) {
+                                       e.printStackTrace();
+                                   } catch (IOException e) {
+                                       e.printStackTrace();
+                                   } catch (NoSuchAlgorithmException e) {
+                                       e.printStackTrace();
+                                   } catch (KeyManagementException e) {
+                                       e.printStackTrace();
+                                   } catch (JSONException e) {
+                                       e.printStackTrace();
+                                   }
+                               });
+                            });
+                        } catch (CertificateException | KeyStoreException | IOException | NoSuchAlgorithmException | KeyManagementException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
 
     }
@@ -216,8 +262,21 @@ public class HousesFragment extends Fragment {
         String url = "https://192.168.80.16:8443/api/get/all/countries";
         JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
 
-            callback.getInfo(response.toString());
-            new AlertsHelper().shortToast(getContext(),response.toString());
+            try {
+                callback.getInfo(response.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (CertificateException e) {
+                e.printStackTrace();
+            } catch (KeyStoreException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (KeyManagementException e) {
+                e.printStackTrace();
+            }
 
         }, error -> {
             if (error.networkResponse != null && error.networkResponse.data != null) {
@@ -266,8 +325,21 @@ public class HousesFragment extends Fragment {
 
         JsonArrayRequest depRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
 
-            callback.getInfo(response.toString());
-            new AlertsHelper().shortToast(getContext(),response.toString());
+            try {
+                callback.getInfo(response.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (CertificateException e) {
+                e.printStackTrace();
+            } catch (KeyStoreException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (KeyManagementException e) {
+                e.printStackTrace();
+            }
 
         }, error -> {
             if (error.networkResponse != null && error.networkResponse.data != null) {
@@ -315,8 +387,21 @@ public class HousesFragment extends Fragment {
 
         JsonArrayRequest depRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
 
-            callback.getInfo(response.toString());
-            new AlertsHelper().shortToast(getContext(),response.toString());
+            try {
+                callback.getInfo(response.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (CertificateException e) {
+                e.printStackTrace();
+            } catch (KeyStoreException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (KeyManagementException e) {
+                e.printStackTrace();
+            }
 
         }, error -> {
             if (error.networkResponse != null && error.networkResponse.data != null) {
@@ -364,8 +449,13 @@ public class HousesFragment extends Fragment {
 
         JsonArrayRequest depRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
 
-            callback.getInfo(response.toString());
-            new AlertsHelper().shortToast(getContext(),response.toString());
+            try {
+                System.out.println("HOLAAAAAA"+response.toString());
+                callback.getInfo(response.toString());
+
+            } catch (JSONException | CertificateException | KeyStoreException | IOException | NoSuchAlgorithmException | KeyManagementException e) {
+                e.printStackTrace();
+            }
 
         }, error -> {
             if (error.networkResponse != null && error.networkResponse.data != null) {
@@ -393,6 +483,67 @@ public class HousesFragment extends Fragment {
         requestQueue.add(depRequest);
     }
 
+
+    private void getIdentificationClient(String token, String username, VolleyCallback callback) throws CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException, KeyManagementException {
+        SSLSocketFactory sslSocketFactory = settingsSecurity();
+
+
+        HostnameVerifier allHostsValid = new HostnameVerifier() {
+            public boolean verify(String hostname, SSLSession session) {
+                return true;
+            }
+        };
+
+        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+
+
+        //Poner dirección IP del Eendpoint donde se aloja el backend - Quitar localhost///
+
+        String url = String.format("https://192.168.80.16:8443/api/get/user=%s", username);
+
+        JsonObjectRequest depRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+            try {
+                callback.getInfo(response.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (CertificateException e) {
+                e.printStackTrace();
+            } catch (KeyStoreException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (KeyManagementException e) {
+                e.printStackTrace();
+            }
+
+        }, error -> {
+            if (error.networkResponse != null && error.networkResponse.data != null) {
+                try {
+                    String message = new JSONObject(new String(error.networkResponse.data)).getString("message");
+                    new AlertsHelper().shortToast(getContext(),message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                // Mostrar mensaje de error
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+        };
+
+        HurlStack hurlStack = new HurlStack(null, sslSocketFactory);
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext(), hurlStack);
+        requestQueue.add(depRequest);
+    }
 
     private SSLSocketFactory settingsSecurity() throws KeyStoreException, CertificateException, IOException, NoSuchAlgorithmException, KeyManagementException {
         InputStream caInput = getResources().openRawResource(R.raw.server);
@@ -423,13 +574,13 @@ public class HousesFragment extends Fragment {
 
 
     public interface VolleyCallback {
-        void getInfo(String response);
+        void getInfo(String response) throws JSONException, CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException, KeyManagementException;
     }
 
 
 
 
-    private void addHouse() throws CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException, KeyManagementException {
+    private void addHouse(int identificacion, String idbarrio) throws CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException, KeyManagementException {
 
 
         InputStream caInput = getResources().openRawResource(R.raw.server);
@@ -453,47 +604,48 @@ public class HousesFragment extends Fragment {
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 
         //Poner dirección IP del Eendpoint donde se aloja el backend - Quitar localhost///
-        String url = "https://192.168.80.16:8443/api/house/add";
-
+        String url = "https://192.168.80.16:8443/api/post/add/house";
         JSONObject jsonBody = new JSONObject();
+
         try {
-            jsonBody.put("barrioId", binding.userName.getEditText().getText());
-            jsonBody.put("identificacionCliente", binding.password.getEditText().getText().toString());
-            jsonBody.put("direccion", binding.nameUser.getEditText().getText());
+            jsonBody.put("identificacionCliente", identificacion);
+            jsonBody.put("barrioId", idbarrio);
+            jsonBody.put("direccion", binding.houseAddress.getEditText().getText());
+
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody, response -> {
-            startActivity(new Intent(getApplicationContext(),HomeActivity.class));
-            try {
-                new AlertsHelper().shortToast(getApplicationContext(),response.getString("message"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, homeFragment).commit();
+
+            new AlertsHelper().shortToast(getContext(),"Casa Añadida Exitosamente");
+
         },error -> {
             if (error.networkResponse != null && error.networkResponse.data != null) {
                 try {
                     String message = new JSONObject(new String(error.networkResponse.data)).getString("message");
-                    new AlertsHelper().shortToast(getApplicationContext(), message);
+                    new AlertsHelper().shortToast(getContext(), message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else {
-                new AlertsHelper().shortToast(getApplicationContext(), error.toString());
+                new AlertsHelper().shortToast(getContext(), error.toString());
             }
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Bearer " + token);
                 return headers;
             }
         };
 
         HurlStack hurlStack = new HurlStack(null, sslSocketFactory);
-        RequestQueue requestQueue  = Volley.newRequestQueue(this,hurlStack);
+        RequestQueue requestQueue  = Volley.newRequestQueue(getContext(),hurlStack);
         requestQueue.add(postRequest);
 
-    }*/
+    }
 }

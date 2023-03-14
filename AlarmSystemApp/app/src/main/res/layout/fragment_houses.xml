@@ -22,8 +22,8 @@
 
     <TextView
         android:id="@+id/labelHouses"
-        android:layout_width="231dp"
-        android:layout_height="24dp"
+        android:layout_width="184dp"
+        android:layout_height="23dp"
         android:layout_marginTop="70dp"
         android:text="Añadir Casa"
         android:textAlignment="center"

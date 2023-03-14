@@ -16,5 +16,11 @@ public class CasaResponse {
     private Long barrioId;
 
     public CasaResponse(Long id) {
+
+    }
+
+
+    public String getDireccion() {
+        return direccion;
     }
 }

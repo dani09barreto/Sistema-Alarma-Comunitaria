@@ -12,4 +12,8 @@ import lombok.Setter;
 public class UserResponse {
     private Long id;
     private Long identificacion;
+
+    public Long getId() {
+        return id;
+    }
 }
