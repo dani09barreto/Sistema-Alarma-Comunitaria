@@ -17,9 +17,22 @@ import com.edu.alarmsystem.databinding.FragmentSensorsBinding;
 
 import java.util.Objects;
 
+import javax.crypto.SecretKey;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class SensorsFragment extends Fragment {
 
     private FragmentSensorsBinding binding;
+    private String token;
+    private String username;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,11 +46,10 @@ public class SensorsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        token = requireArguments().getString("token");
+        username = requireArguments().getString("currentUsername");
 
-        String [] options = {"Lumínico","Movimiento","Temperatura","Presión"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, options);
-        binding.spinnerSensors.setAdapter(adapter);
-
+        System.out.println(username);
         binding.btnBack.setOnClickListener(v ->{
             getActivity().onBackPressed();
         });

@@ -59,7 +59,6 @@ public class HousesFragment extends Fragment {
 
     private FragmentHousesBinding binding;
     private String token;
-    private String countries;
 
 
     @Override
@@ -83,26 +82,6 @@ public class HousesFragment extends Fragment {
         binding.btnBack.setOnClickListener(v ->{
             getActivity().onBackPressed();
         });
-
-
-        /*String jsonString = null;
-        try {
-            jsonString = getCountries(token);
-            System.out.println("HOLAAA"+jsonString);
-        } catch (KeyManagementException | KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException e) {
-            e.printStackTrace();
-        }
-
-       List<Map<String, String>> paises = new Gson().fromJson(jsonString, new TypeToken<List<Map<String, String>>>(){}.getType());
-
-        List<String> nombresPaises = new ArrayList<>();
-        for (Map<String, String> pais : paises) {
-            nombresPaises.add(pais.get("nombre"));
-        }
-
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, nombresPaises);
-        binding.houseCountry.setAdapter(adapter);*/
 
     }
 

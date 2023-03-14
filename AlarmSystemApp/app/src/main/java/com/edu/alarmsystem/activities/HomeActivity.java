@@ -20,6 +20,7 @@ import com.android.volley.toolbox.Volley;
 import com.edu.alarmsystem.R;
 import com.edu.alarmsystem.databinding.ActivityHomeBinding;
 import com.edu.alarmsystem.databinding.ActivityMainBinding;
+import com.edu.alarmsystem.databinding.FragmentSensorsBinding;
 import com.edu.alarmsystem.utils.AlertsHelper;
 
 import org.json.JSONException;
@@ -49,6 +50,7 @@ public class HomeActivity extends Activity {
     SensorsFragment sensorsFragment = new SensorsFragment();
     HousesFragment housesFragment = new HousesFragment();
     String token;
+    private String currentUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +59,11 @@ public class HomeActivity extends Activity {
         setContentView(binding.getRoot());
 
         Bundle bundle = getIntent().getExtras();
+        currentUsername = bundle.getString("username");
         token = bundle.getString("token");
         Bundle args = new Bundle();
         args.putString("token", token);
+        args.putString("currentUsername", currentUsername);
 
         housesFragment.setArguments(args);
 
@@ -86,6 +90,7 @@ public class HomeActivity extends Activity {
                     getSupportFragmentManager().beginTransaction().replace(binding.container.getId(),homeFragment).commit();
                     return true;
                 case R.id.sensors:
+                    sensorsFragment.setArguments(args);
                     getSupportFragmentManager().beginTransaction().replace(binding.container.getId(),sensorsFragment).commit();
                     return true;
                 case R.id.houses:
