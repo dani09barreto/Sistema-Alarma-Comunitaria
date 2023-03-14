@@ -68,6 +68,7 @@ import okhttp3.OkHttpClient;
 public class SignUpActivity extends Activity {
 
     private ActivitySignUpBinding binding;
+    private static final String IPSERVER = "https://192.168.1.105:8443";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +157,7 @@ public class SignUpActivity extends Activity {
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 
         //Poner dirección IP del Eendpoint donde se aloja el backend - Quitar localhost///
-        String url = "https://192.168.80.16:8443/api/auth/register";
+        String url = IPSERVER + "/api/auth/register";
 
         JSONObject jsonBody = new JSONObject();
         try {

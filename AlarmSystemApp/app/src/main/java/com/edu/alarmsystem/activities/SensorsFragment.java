@@ -69,6 +69,7 @@ public class SensorsFragment extends Fragment {
     public CasaResponse casaResponse;
     TypeSensorAdapter adapter;
     List <TypeSensors> typeSensorsList = new ArrayList<>();
+    private static final String IPSERVER = "https://192.168.1.105:8443";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -137,7 +138,7 @@ public class SensorsFragment extends Fragment {
 
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 
-        String url = String.format("https://192.168.80.16:8443/api/get/user=%s", username);
+        String url = String.format(IPSERVER + "/api/get/user=%s", username);
 
         StringRequest getRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
@@ -201,7 +202,7 @@ public class SensorsFragment extends Fragment {
 
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 
-        String url = "https://192.168.1.105:8443/api/get/all/sensortypes";
+        String url = IPSERVER+"/api/get/all/sensortypes";
 
         StringRequest getRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
@@ -210,6 +211,7 @@ public class SensorsFragment extends Fragment {
                     List<TypeSensors> sensorList = gson.fromJson(response, sensorListType);
                     adapter = new TypeSensorAdapter(getContext(), R.layout.type_sensor_adapter, sensorList);
                     binding.filledExposed.setAdapter(adapter);
+
                 },
                 error -> {
                     alertsHelper.shortToast(getContext(), error.getMessage());
@@ -250,7 +252,7 @@ public class SensorsFragment extends Fragment {
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 
         @SuppressLint("DefaultLocale")
-        String urlget = String.format("https://192.168.80.16:8443/api/get/user=%d/house", userResponse.getId());
+        String urlget = String.format(IPSERVER + "/api/get/user=%d/house", userResponse.getId());
         StringRequest getRequest = new StringRequest(Request.Method.GET, urlget,
                 response2 -> {
                     if(response2.isEmpty()) {

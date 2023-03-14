@@ -58,6 +58,7 @@ public class HousesFragment extends Fragment {
     List<Map<String, String>> departamentos = new ArrayList<>();
     List<Map<String, String>> ciudades = new ArrayList<>();
     List<Map<String, String>> barrios = new ArrayList<>();
+    private static final String IPSERVER = "https://192.168.1.105:8443";
 
 
     @Override
@@ -259,7 +260,7 @@ public class HousesFragment extends Fragment {
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 
         //Poner dirección IP del Eendpoint donde se aloja el backend - Quitar localhost///
-        String url = "https://192.168.80.16:8443/api/get/all/countries";
+        String url = IPSERVER + "/api/get/all/countries";
         JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
 
             try {
@@ -321,7 +322,7 @@ public class HousesFragment extends Fragment {
 
         //Poner dirección IP del Eendpoint donde se aloja el backend - Quitar localhost///
 
-        String url = "https://192.168.80.16:8443/api/get/country="+id+"/departments";
+        String url = IPSERVER + "api/get/country="+id+"/departments";
 
         JsonArrayRequest depRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
 
@@ -383,7 +384,7 @@ public class HousesFragment extends Fragment {
 
         //Poner dirección IP del Eendpoint donde se aloja el backend - Quitar localhost///
 
-        String url = "https://192.168.80.16:8443/api/get/department="+id+"/cities";
+        String url = IPSERVER + "api/get/department="+id+"/cities";
 
         JsonArrayRequest depRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
 
@@ -445,7 +446,7 @@ public class HousesFragment extends Fragment {
 
         //Poner dirección IP del Eendpoint donde se aloja el backend - Quitar localhost///
 
-        String url = "https://192.168.80.16:8443/api/get/city="+id+"/neighborhoods";
+        String url = IPSERVER + "api/get/city="+id+"/neighborhoods";
 
         JsonArrayRequest depRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
 
@@ -499,7 +500,7 @@ public class HousesFragment extends Fragment {
 
         //Poner dirección IP del Eendpoint donde se aloja el backend - Quitar localhost///
 
-        String url = String.format("https://192.168.80.16:8443/api/get/user=%s", username);
+        String url = String.format(IPSERVER + "/api/get/user=%s", username);
 
         JsonObjectRequest depRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
 
@@ -604,7 +605,7 @@ public class HousesFragment extends Fragment {
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 
         //Poner dirección IP del Eendpoint donde se aloja el backend - Quitar localhost///
-        String url = "https://192.168.80.16:8443/api/post/add/house";
+        String url = IPSERVER + "/api/post/add/house";
         JSONObject jsonBody = new JSONObject();
 
         try {

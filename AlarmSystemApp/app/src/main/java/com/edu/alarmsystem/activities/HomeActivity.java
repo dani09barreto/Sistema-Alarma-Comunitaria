@@ -51,6 +51,7 @@ public class HomeActivity extends Activity {
     HousesFragment housesFragment = new HousesFragment();
     String token;
     private String currentUsername;
+    private static final String IPSERVER = "https://192.168.1.105:8443";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +132,7 @@ public class HomeActivity extends Activity {
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 
         //Poner dirección IP del Eendpoint donde se aloja el backend - Quitar localhost///
-        String url = "https://192.168.80.16:8443/api/get/all/countries";
+        String url = IPSERVER + "/api/get/all/countries";
 
 
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {

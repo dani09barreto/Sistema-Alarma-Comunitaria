@@ -47,6 +47,7 @@ public class LoginActivity extends Activity {
     Bundle bundle = new Bundle();
     HousesFragment fragment = new HousesFragment();
     FragmentTransaction transaction;
+    private static final String IPSERVER = "https://192.168.1.105:8443";
 
 
     @Override
@@ -87,7 +88,7 @@ public class LoginActivity extends Activity {
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 
         //Poner dirección IP del Endpoint donde se aloja el backend - Quitar localhost///
-        String url = "https://192.168.80.16:8443/api/auth/login";
+        String url = IPSERVER + "/api/auth/login";
 
         if(binding.user.getEditText().getText().toString().isEmpty() && binding.user.getEditText().getText().toString().isEmpty()){
             alertsHelper.shortToast(getApplicationContext(),"Ingresa todos los datos");
