@@ -1,6 +1,7 @@
 package com.example.demo.service.imp;
 
 import com.example.demo.model.Cliente;
+import com.example.demo.model.User;
 import com.example.demo.repository.IClientRepository;
 import com.example.demo.service.intf.IClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,8 @@ public class ClientServiceImp implements IClientService {
     }
 
     @Override
-    public List<Cliente> getAllClients() {
-        return clientRepository.findAll();
+    public Cliente findByUsuario(User usuario) {
+        return clientRepository.findByUsuario(usuario);
     }
+
 }

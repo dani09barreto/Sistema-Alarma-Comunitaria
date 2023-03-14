@@ -15,5 +15,8 @@ import java.util.List;
 public class CasaRequest {
     private Long identificacionCliente;
     private Long barrioId;
+    private String nombre;
+
+    private String barrioNombre;
     private String direccion;
 }

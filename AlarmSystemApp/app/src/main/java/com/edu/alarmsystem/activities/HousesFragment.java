@@ -53,11 +53,11 @@ import javax.net.ssl.TrustManagerFactory;
 public class HousesFragment extends Fragment {
 
     private FragmentHousesBinding binding;
+    private String token;
     List<Map<String, String>> paises = new ArrayList<>();
     List<Map<String, String>> departamentos = new ArrayList<>();
     List<Map<String, String>> ciudades = new ArrayList<>();
     List<Map<String, String>> barrios = new ArrayList<>();
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

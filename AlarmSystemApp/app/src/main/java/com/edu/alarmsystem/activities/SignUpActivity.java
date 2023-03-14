@@ -156,7 +156,7 @@ public class SignUpActivity extends Activity {
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 
         //Poner dirección IP del Eendpoint donde se aloja el backend - Quitar localhost///
-        String url = "https://192.168.80.16:8443/api/auth/register";
+        String url = "https://192.168.1.105:8443/api/auth/register";
 
         JSONObject jsonBody = new JSONObject();
         try {
@@ -173,7 +173,7 @@ public class SignUpActivity extends Activity {
             e.printStackTrace();
         }
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody, response -> {
-            startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
             try {
                 new AlertsHelper().shortToast(getApplicationContext(),response.getString("message"));
             } catch (JSONException e) {

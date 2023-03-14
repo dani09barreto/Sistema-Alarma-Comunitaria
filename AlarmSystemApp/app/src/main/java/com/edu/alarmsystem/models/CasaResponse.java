@@ -1,4 +1,4 @@
-package com.example.demo.payload.response;
+package com.edu.alarmsystem.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

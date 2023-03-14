@@ -35,5 +35,9 @@ public class Casa {
         this.barrio = barrio;
         this.direccion = direccion;
     }
+
+    public Long getIdentificacionCliente() {
+        return cliente.getId();
+    }
     // getters y setters
 }

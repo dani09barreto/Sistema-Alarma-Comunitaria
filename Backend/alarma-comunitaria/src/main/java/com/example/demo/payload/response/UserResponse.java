@@ -9,12 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CasaResponse {
-    private Long casaId;
-    private String direccion;
-    private Long clienteId;
-    private Long barrioId;
+public class UserResponse {
+    private Long id;
+    private Long identificacion;
 
-    public CasaResponse(Long id) {
-    }
 }
