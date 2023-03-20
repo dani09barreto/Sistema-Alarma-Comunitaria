@@ -58,7 +58,7 @@ public class HousesFragment extends Fragment {
     List<Map<String, String>> departamentos = new ArrayList<>();
     List<Map<String, String>> ciudades = new ArrayList<>();
     List<Map<String, String>> barrios = new ArrayList<>();
-    private static final String IPSERVER = "https://192.168.1.105:8443";
+    private static final String IPSERVER = "https://10.0.1.105:8443";
 
 
     @Override

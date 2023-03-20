@@ -69,7 +69,7 @@ public class SensorsFragment extends Fragment {
     public CasaResponse casaResponse;
     TypeSensorAdapter adapter;
     List <TypeSensors> typeSensorsList = new ArrayList<>();
-    private static final String IPSERVER = "https://192.168.1.105:8443";
+    private static final String IPSERVER = "https://10.0.1.105:8443";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

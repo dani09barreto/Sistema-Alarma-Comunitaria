@@ -68,7 +68,7 @@ import okhttp3.OkHttpClient;
 public class SignUpActivity extends Activity {
 
     private ActivitySignUpBinding binding;
-    private static final String IPSERVER = "https://192.168.1.105:8443";
+    private static final String IPSERVER = "https://10.0.1.105:8443";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
