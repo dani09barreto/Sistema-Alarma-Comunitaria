@@ -5,6 +5,7 @@ import com.example.demo.repository.ICasaRepository;
 import com.example.demo.service.intf.ICasaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class CasaServiceImp implements ICasaService {
@@ -20,4 +21,10 @@ public class CasaServiceImp implements ICasaService {
     public Casa getCasaById(Long id) {
         return casaRepository.findById(id).get();
     }
+
+    @Override
+    public List<Casa> getAllCasas() {
+        return casaRepository.findAll();
+    }
+
 }

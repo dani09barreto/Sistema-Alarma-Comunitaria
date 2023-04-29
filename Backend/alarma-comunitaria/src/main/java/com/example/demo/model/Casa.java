@@ -40,4 +40,7 @@ public class Casa {
         return cliente.getId();
     }
     // getters y setters
+    public Long getId() {
+        return this.id;
+    }
 }
