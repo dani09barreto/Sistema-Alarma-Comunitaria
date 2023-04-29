@@ -28,4 +28,9 @@ public class CasaServiceImp implements ICasaService {
         return casaRepository.findAll();
     }
 
+    @Override
+    public Casa getCasaByCliente(Cliente cliente) {
+        return casaRepository.findByCliente(cliente);
+    }
+
 }
