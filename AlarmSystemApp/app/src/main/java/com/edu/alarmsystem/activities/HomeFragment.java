@@ -26,6 +26,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
 
     private FragmentHomeBinding binding;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

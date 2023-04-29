@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.Cliente;
+import com.example.demo.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,5 +12,6 @@ public interface IClientRepository extends JpaRepository<Cliente, Long> {
     Boolean existsByCorreoElectronico(String correo);
     Boolean existsByCelular(Long celular);
     Cliente findByIdentificacion(Long identificacion);
+    Cliente findByUsuario(User usuario);
 
 }

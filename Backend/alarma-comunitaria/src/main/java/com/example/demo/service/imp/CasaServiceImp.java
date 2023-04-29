@@ -1,6 +1,7 @@
 package com.example.demo.service.imp;
 
 import com.example.demo.model.Casa;
+import com.example.demo.model.Cliente;
 import com.example.demo.repository.ICasaRepository;
 import com.example.demo.service.intf.ICasaService;
 import org.springframework.beans.factory.annotation.Autowired;

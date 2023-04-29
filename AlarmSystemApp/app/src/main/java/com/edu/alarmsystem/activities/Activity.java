@@ -24,5 +24,7 @@ public abstract class Activity extends AppCompatActivity {
         ((App) getApplicationContext()).getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
     }
+
+
 }
 
