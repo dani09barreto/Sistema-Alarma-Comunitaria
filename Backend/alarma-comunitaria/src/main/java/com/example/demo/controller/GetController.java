@@ -235,14 +235,11 @@ public class GetController {
         return ResponseEntity.ok(barrioResponses);
     }
 
-    // Get all houses by client object
         @GetMapping("/client={id}/houses")
         public ResponseEntity<?> getHousesByClientId(@PathVariable Long id) {
                 //Get Client by id
-        
                 List <Casa> casas = casaService.getAllCasas();
                 List <CasaResponse> casaResponses = new ArrayList<>();
-
                 // Get all houses by client id
                 casas.stream()
                         .filter(casa -> casa.getCliente().getId().equals(id))
