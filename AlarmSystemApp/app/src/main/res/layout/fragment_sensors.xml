@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingRight="35dp"
+    android:paddingLeft="35dp"
     tools:context=".activities.SensorsFragment">
 
     <ImageButton
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginTop="20dp"
         android:clickable="true"
         android:enabled="false"
         android:backgroundTint="@android:color/transparent"
@@ -22,40 +24,26 @@
         android:id="@+id/labelSensorType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
         android:layout_marginTop="24dp"
         android:text="Selecciona el tipo de sensor: "
         android:layout_marginEnd="24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textaddresshouse" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerHouses" />
 
-    <com.google.android.material.textfield.TextInputLayout
+    <Spinner
         android:id="@+id/spinnerSensors"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:hint="Tipo de sensor"
+        android:layout_height="50dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelSensorType">
+        app:layout_constraintTop_toBottomOf="@+id/labelSensorType"/>
 
-        <AutoCompleteTextView
-            android:id="@+id/filled_exposed"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="none"
-            tools:ignore="LabelFor" />
-
-    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/labelNumSensors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
         android:layout_marginTop="12dp"
         android:text="Digita el número de sensores"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +54,6 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="250dp"
         android:enabled="false"
@@ -81,7 +68,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/my_button"
+        android:id="@+id/addBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -115,10 +102,11 @@
         android:id="@+id/textError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
         android:layout_marginTop="16dp"
-
         android:textColor="@color/red_600"
+        android:text="No tienes una casa asignada, Primero debes crear una!"
+        android:visibility="invisible"
+        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleSensors" />
 
@@ -126,11 +114,21 @@
         android:id="@+id/textaddresshouse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="36dp"
-        android:text="Casa: "
+        android:layout_marginTop="10dp"
+        android:text="Selecciona tu casa por dirección:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textError" />
+
+    <Spinner
+        android:id="@+id/spinnerHouses"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textaddresshouse"/>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
