@@ -62,11 +62,19 @@ public class GetController {
     @Autowired
     private IUserService userService;
 
+    @Qualifier("tipoEmergenciaServiceImp")
+    @Autowired
+    private ITipoEmergenciaService tipoEmergenciaService;
+
+    @Qualifier("repuestaEmergenciaServiceImp")
+    @Autowired
+    private IRespuestaEmergenciaService respuestaEmergenciaService;
+
 
     // Get Methods
 
     // Get house by id
-    @GetMapping ("/house/id={id}")
+    @GetMapping("/house/id={id}")
     public ResponseEntity<?> getHouseById(@PathVariable Long id) {
         CasaRequest casaRequest = new CasaRequest();
         Casa casa = casaService.getCasaById(id);
@@ -88,7 +96,7 @@ public class GetController {
     public ResponseEntity<?> getHouseByClient(@PathVariable Long id) {
         Cliente cliente = clientService.findById(id).get();
         Casa casa = casaService.getCasaByCliente(cliente);
-        if (casa == null){
+        if (casa == null) {
             return ResponseEntity.noContent().build();
         }
         CasaResponse casaResponse = new CasaResponse(
@@ -113,13 +121,13 @@ public class GetController {
     }
 
 
-    @GetMapping ("/all/sensortypes")
+    @GetMapping("/all/sensortypes")
     public ResponseEntity<?> getAllSensorTypes() {
         return ResponseEntity.ok(tipoSensorService.getAllTipoSensores());
     }
 
     // Sensor by house id
-    @GetMapping ("/house/id={id}/sensors")
+    @GetMapping("/house/id={id}/sensors")
     public ResponseEntity<?> getSensorsByHouseId(@PathVariable Long id) {
         Casa casa = casaService.getCasaById(id);
         // Get all sensors
@@ -129,9 +137,9 @@ public class GetController {
 
         sensores.stream()
                 .filter(sensor -> sensor.getCasa().getId().equals(casa.getId()))
-                .map(sensor -> new SensorResponse(sensor.getId(),sensor.getCasa().getId(),
-                                                    sensor.getTipoSensor().getId(),
-                                                    sensor.getTipoSensor().getNombre()))
+                .map(sensor -> new SensorResponse(sensor.getId(), sensor.getCasa().getId(),
+                        sensor.getTipoSensor().getId(),
+                        sensor.getTipoSensor().getNombre()))
                 .forEach(sensorResponses::add);
 
         return ResponseEntity.ok(sensorResponses);
@@ -139,7 +147,7 @@ public class GetController {
     }
 
     // Get house by id and return all movements
-    @GetMapping ("/house/id={id}/sensors/movements")
+    @GetMapping("/house/id={id}/sensors/movements")
     public ResponseEntity<?> getMovementsByHouseId(@PathVariable Long id) {
         Casa casa = casaService.getCasaById(id);
         // Get all sensors
@@ -149,7 +157,7 @@ public class GetController {
 
         sensores.stream()
                 .filter(sensor -> sensor.getCasa().getId().equals(casa.getId()))
-                .map(sensor -> new SensorResponse(sensor.getId(),sensor.getCasa().getId(),
+                .map(sensor -> new SensorResponse(sensor.getId(), sensor.getCasa().getId(),
                         sensor.getTipoSensor().getId(),
                         sensor.getTipoSensor().getNombre()))
                 .forEach(sensorResponses::add);
@@ -200,11 +208,11 @@ public class GetController {
     public ResponseEntity<?> getDepartmentsByCountryId(@PathVariable Long idPais) {
         Pais pais = paisService.getPaisById(idPais);
         List<Departamento> departamentos = departamentoService.getDepartamentosByPais(pais);
-        List <DepartamentoResponse> departamentoResponses = new ArrayList<>();
+        List<DepartamentoResponse> departamentoResponses = new ArrayList<>();
 
         departamentos.stream()
-                        .map(departamento -> new DepartamentoResponse(departamento.getId(), departamento.getNombre()))
-                        .forEach(departamentoResponses::add);
+                .map(departamento -> new DepartamentoResponse(departamento.getId(), departamento.getNombre()))
+                .forEach(departamentoResponses::add);
 
         return ResponseEntity.ok(departamentoResponses);
     }
@@ -213,7 +221,7 @@ public class GetController {
     public ResponseEntity<?> getCitiesByDepartmentId(@PathVariable Long idDepartamento) {
         Departamento departamento = departamentoService.getDepartamentoById(idDepartamento);
         List<Ciudad> ciudades = ciudadService.getCiudadesByDepartamento(departamento);
-        List <CiudadResponse> ciudadResponses = new ArrayList<>();
+        List<CiudadResponse> ciudadResponses = new ArrayList<>();
 
         ciudades.stream()
                 .map(ciudad -> new CiudadResponse(ciudad.getId(), ciudad.getNombre()))
@@ -226,7 +234,7 @@ public class GetController {
     public ResponseEntity<?> getNeighborhoodsByCityId(@PathVariable Long idCiudad) {
         Ciudad ciudad = ciudadService.getCiudadById(idCiudad);
         List<Barrio> barrios = barrioService.getBarriosByCiudad(ciudad);
-        List <BarrioResponse> barrioResponses = new ArrayList<>();
+        List<BarrioResponse> barrioResponses = new ArrayList<>();
 
         barrios.stream()
                 .map(barrio -> new BarrioResponse(barrio.getId(), barrio.getNombre()))
@@ -235,17 +243,35 @@ public class GetController {
         return ResponseEntity.ok(barrioResponses);
     }
 
-        @GetMapping("/client={id}/houses")
-        public ResponseEntity<?> getHousesByClientId(@PathVariable Long id) {
-                //Get Client by id
-                List <Casa> casas = casaService.getAllCasas();
-                List <CasaResponse> casaResponses = new ArrayList<>();
-                // Get all houses by client id
-                casas.stream()
-                        .filter(casa -> casa.getCliente().getId().equals(id))
-                        .map(casa -> new CasaResponse(casa.getId(), casa.getDireccion(), casa.getCliente().getId(), casa.getBarrio().getId()))
-                        .forEach(casaResponses::add);
+    @GetMapping("/client={id}/houses")
+    public ResponseEntity<?> getHousesByClientId(@PathVariable Long id) {
+        //Get Client by id
+        List<Casa> casas = casaService.getAllCasas();
+        List<CasaResponse> casaResponses = new ArrayList<>();
+        // Get all houses by client id
+        casas.stream()
+                .filter(casa -> casa.getCliente().getId().equals(id))
+                .map(casa -> new CasaResponse(casa.getId(), casa.getDireccion(), casa.getCliente().getId(), casa.getBarrio().getId()))
+                .forEach(casaResponses::add);
 
-                return ResponseEntity.ok(casaResponses);
+        return ResponseEntity.ok(casaResponses);
+    }
+
+    @GetMapping("/typeEmergency")
+    public ResponseEntity<?> getAllTypeEmergencies() {
+        List<TipoEmergencia> tipoEmergencias = tipoEmergenciaService.obtenerTiposEmergencia();
+        return ResponseEntity.ok(tipoEmergencias);
+    }
+
+    @GetMapping("/casa={id}/emergencies")
+    public ResponseEntity<?> getEmergenciesHouse (@PathVariable Long id){
+        List<RespuestaEmergencia> tipoEmergencias = respuestaEmergenciaService.obtenerRespuestasEmergenciaCasa(id);
+        List<TipoEmergencia> emergencias = new ArrayList<>();
+
+        for(RespuestaEmergencia res : tipoEmergencias){
+            emergencias.add(res.getTipoEmergencia());
         }
+        return ResponseEntity.ok(emergencias);
+    }
+
 }

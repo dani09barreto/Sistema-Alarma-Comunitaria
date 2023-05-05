@@ -22,11 +22,5 @@ public class TipoEmergencia {
 
     @Column(name = "nombre")
     private String nombre;
-
-    public TipoEmergencia (String nombre){
-        this.nombre = nombre;
-    }
-
-    // constructor, getters y setters
 }
 

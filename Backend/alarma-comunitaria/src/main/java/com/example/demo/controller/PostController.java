@@ -57,6 +57,7 @@ public class PostController {
                 .setBarrio(barrio)
                 .setCliente(cliente)
                 .setDireccion(casaRequest.getDireccion())
+                .setOcupada(false)
                 .build();
         casaService.saveCasa(casa);
         return ResponseEntity.ok(new CasaResponse(casa.getId()));
@@ -86,4 +87,5 @@ public class PostController {
         registroMovimientoService.saveRegistroMovimiento(registroMovimiento);
         return ResponseEntity.ok(new MessageResponse("Registro creado con exito"));
     }
+
 }

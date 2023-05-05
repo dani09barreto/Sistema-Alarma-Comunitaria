@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,10 +31,14 @@ public class Casa {
     @Column(name = "direccion")
     private String direccion;
 
-    public Casa(Cliente cliente, Barrio barrio, String direccion) {
+    @Column(name = "ocupada")
+    private Boolean ocupada;
+
+    public Casa(Cliente cliente, Barrio barrio, String direccion, Boolean ocupada) {
         this.cliente = cliente;
         this.barrio = barrio;
         this.direccion = direccion;
+        this.ocupada = ocupada;
     }
 
     public Long getIdentificacionCliente() {

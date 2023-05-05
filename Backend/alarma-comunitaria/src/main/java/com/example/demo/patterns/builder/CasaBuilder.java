@@ -12,6 +12,8 @@ public class CasaBuilder implements IBuilder<Casa>{
 
     private String direccion;
 
+    private Boolean ocupada;
+
     public CasaBuilder setCliente(Cliente cliente) {
         this.cliente = cliente;
         return this;
@@ -27,8 +29,13 @@ public class CasaBuilder implements IBuilder<Casa>{
         return this;
     }
 
+    public CasaBuilder setOcupada(Boolean ocupada) {
+        this.ocupada = ocupada;
+        return this;
+    }
+
     @Override
     public Casa build() {
-        return new Casa(cliente, barrio, direccion);
+        return new Casa(cliente, barrio, direccion, ocupada);
     }
 }
