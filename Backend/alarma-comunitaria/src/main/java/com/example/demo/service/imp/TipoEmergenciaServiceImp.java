@@ -18,4 +18,9 @@ public class TipoEmergenciaServiceImp implements ITipoEmergenciaService {
     public List<TipoEmergencia> obtenerTiposEmergencia() {
         return tipoEmergenciaRepository.findAll();
     }
+
+    @Override
+    public TipoEmergencia obtenerTipoEmergenciaById(Long id) {
+        return tipoEmergenciaRepository.getById(id);
+    }
 }

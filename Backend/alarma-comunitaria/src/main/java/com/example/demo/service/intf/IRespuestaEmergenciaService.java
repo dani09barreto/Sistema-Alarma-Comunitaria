@@ -9,4 +9,5 @@ import java.util.List;
 @Service
 public interface IRespuestaEmergenciaService {
     List <RespuestaEmergencia> obtenerRespuestasEmergenciaCasa(Long id);
+    void guardarRespuestaEmergencias(RespuestaEmergencia respuestaEmergencia);
 }

@@ -19,4 +19,9 @@ public class RepuestaEmergenciaServiceImp implements IRespuestaEmergenciaService
     public List<RespuestaEmergencia> obtenerRespuestasEmergenciaCasa(Long id) {
         return respuestaEmergenciaRepository.findByCasaId(id);
     }
+
+    @Override
+    public void guardarRespuestaEmergencias(RespuestaEmergencia respuestaEmergencia) {
+        respuestaEmergenciaRepository.save(respuestaEmergencia);
+    }
 }

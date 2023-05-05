@@ -3,8 +3,10 @@ package com.example.demo.controller;
 import com.example.demo.model.*;
 import com.example.demo.patterns.builder.CasaBuilder;
 import com.example.demo.patterns.builder.RegistroMovimientoBuilder;
+import com.example.demo.patterns.builder.RespuestaEmergenciaBuilder;
 import com.example.demo.patterns.builder.SensorBuilder;
 import com.example.demo.payload.request.CasaRequest;
+import com.example.demo.payload.request.CasaTipoEmergencias;
 import com.example.demo.payload.response.CasaResponse;
 import com.example.demo.payload.request.RegistryRequest;
 import com.example.demo.payload.request.SensorRequest;
@@ -14,11 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/api/post")
@@ -47,6 +52,14 @@ public class PostController {
     @Qualifier("registroMovimientoServiceImp")
     @Autowired
     private IRegistroMovimientoService registroMovimientoService;
+
+    @Qualifier("tipoEmergenciaServiceImp")
+    @Autowired
+    private ITipoEmergenciaService tipoEmergenciaService;
+
+    @Qualifier("repuestaEmergenciaServiceImp")
+    @Autowired
+    private IRespuestaEmergenciaService respuestaEmergenciaService;
 
 
     @PostMapping("/add/house")
@@ -86,6 +99,28 @@ public class PostController {
                 .build();
         registroMovimientoService.saveRegistroMovimiento(registroMovimiento);
         return ResponseEntity.ok(new MessageResponse("Registro creado con exito"));
+    }
+
+    @PostMapping("/add/typeEmergencies")
+    public ResponseEntity <?> addEmergenciesToHouse(@RequestBody CasaTipoEmergencias casaTipoEmergencias){
+        Casa casa = casaService.getCasaById(casaTipoEmergencias.getIdCasa());
+        List<TipoEmergencia> emergencias = new ArrayList<>();
+        casaTipoEmergencias.getTiposEmergenciasId().stream()
+                .map(aLong -> tipoEmergenciaService.obtenerTipoEmergenciaById(aLong))
+                .forEach(emergencias::add);
+
+        emergencias.stream()
+                .map(tipoEmergencia -> {
+                   RespuestaEmergencia resp = new RespuestaEmergenciaBuilder()
+                           .setCasa(casa)
+                           .setTipoEmergencia(tipoEmergencia)
+                           .build();
+
+                   respuestaEmergenciaService.guardarRespuestaEmergencias(resp);
+
+                    return null;
+                });
+        return ResponseEntity.ok("Emergencias añadidas correctamente");
     }
 
 }

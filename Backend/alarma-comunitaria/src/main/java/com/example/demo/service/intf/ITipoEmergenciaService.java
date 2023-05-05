@@ -8,4 +8,5 @@ import java.util.List;
 @Service
 public interface ITipoEmergenciaService {
     List <TipoEmergencia> obtenerTiposEmergencia();
+    TipoEmergencia obtenerTipoEmergenciaById(Long id);
 }

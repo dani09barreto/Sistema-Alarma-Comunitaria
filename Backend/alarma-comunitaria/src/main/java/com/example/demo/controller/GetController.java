@@ -263,14 +263,15 @@ public class GetController {
         return ResponseEntity.ok(tipoEmergencias);
     }
 
-    @GetMapping("/casa={id}/emergencies")
+    @GetMapping("/house={id}/emergencies")
     public ResponseEntity<?> getEmergenciesHouse (@PathVariable Long id){
         List<RespuestaEmergencia> tipoEmergencias = respuestaEmergenciaService.obtenerRespuestasEmergenciaCasa(id);
         List<TipoEmergencia> emergencias = new ArrayList<>();
 
-        for(RespuestaEmergencia res : tipoEmergencias){
-            emergencias.add(res.getTipoEmergencia());
-        }
+        tipoEmergencias.stream()
+                .map(RespuestaEmergencia::getTipoEmergencia)
+                .forEach(emergencias::add);
+
         return ResponseEntity.ok(emergencias);
     }
 
