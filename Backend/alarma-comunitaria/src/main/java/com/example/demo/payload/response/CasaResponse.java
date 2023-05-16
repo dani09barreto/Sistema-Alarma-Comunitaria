@@ -24,6 +24,7 @@ public class CasaResponse {
 
 
     public CasaResponse(Long id) {
+        this.casaId = id;
     }
 
     // Getters and Setters

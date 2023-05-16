@@ -35,7 +35,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
 public abstract class TemplatePostRequest {
-    private static final String IPSERVER = "https://10.0.1.105:8443";
+    private static final String IPSERVER = "https://192.168.10.27:8443";
 
     public void sendRequest(String token, String endpoint, Context context, JSONObject body,VolleyCallback callback) throws CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException, KeyManagementException {
         SSLSocketFactory sslSocketFactory = settingsSecurity(context);

@@ -47,7 +47,7 @@ public class LoginActivity extends Activity {
     Bundle bundle = new Bundle();
     HousesFragment fragment = new HousesFragment();
     FragmentTransaction transaction;
-    private static final String IPSERVER = "https://10.0.1.105:8443";
+    private static final String IPSERVER = "https://192.168.10.27:8443";
 
 
     @Override

@@ -150,23 +150,62 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
+    <TextView
+        android:id="@+id/labelTypeEmergencies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Tipo de Emergencia"
+        android:textColor="@color/black_1000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/houseAddress" />
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/selectCard"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        app:cardBackgroundColor="@color/white_1000"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="8dp"
+        android:layout_marginTop="15dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelTypeEmergencies">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Selecciona el tipo de emergencia"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/addHouseBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:textAllCaps="false"
-        android:letterSpacing="0"
         android:elevation="8dp"
         android:gravity="center"
+        android:letterSpacing="0"
         android:text="Agregar"
-        android:textSize="18sp"
+        android:textAllCaps="false"
         android:textColor="@color/white_1000"
+        android:textSize="18sp"
         app:cornerRadius="15dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/houseAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/selectCard" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

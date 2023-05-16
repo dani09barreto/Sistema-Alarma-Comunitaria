@@ -1,7 +1,9 @@
 package com.edu.alarmsystem.activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.edu.alarmsystem.R;
 import com.edu.alarmsystem.databinding.FragmentHousesBinding;
 import com.edu.alarmsystem.models.GetRequest;
@@ -25,28 +22,20 @@ import com.edu.alarmsystem.utils.AlertsHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.KeyManagementException;
-import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManagerFactory;
+import java.util.concurrent.CompletableFuture;
 
 
 public class HousesFragment extends Fragment {
@@ -59,11 +48,14 @@ public class HousesFragment extends Fragment {
     private List<Map<String, String>> departamentos = new ArrayList<>();
     private List<Map<String, String>> ciudades = new ArrayList<>();
     private List<Map<String, String>> barrios = new ArrayList<>();
+    private List<Map<String, String>> emergencies = new ArrayList<>();
 
-    private GetRequest request = new GetRequest();
-    private PostRequest postRequest = new PostRequest();
+    private final ArrayList<Integer> selectedIds = new ArrayList<>();
+
+    private final GetRequest request = new GetRequest();
+    private final PostRequest postRequest = new PostRequest();
     private boolean isFragmentAttached = false;
-    private static final String IPSERVER = "https://10.0.1.105:8443";
+    private static final String IPSERVER = "https://localhost:8443";
 
 
     @Override
@@ -255,29 +247,140 @@ public class HousesFragment extends Fragment {
 
                 }
             });
+
         }
+
+        try {
+            request.sendRequest(token,"/api/get/typeEmergency",getContext(),resp -> {
+                emergencies = new Gson().fromJson(resp, new TypeToken<List<Map<String, String>>>() {
+                }.getType());
+
+                String[] emergenciesArray = new String[emergencies.size()];
+                boolean[] selectedEmergencie = new boolean[emergenciesArray.length];
+                ArrayList<Integer> emergenciesList = new ArrayList<>();
+
+                int index = 0;
+                for (Map<String, String> cit : emergencies) {
+                    String nombre = cit.get("nombre");
+                    emergenciesArray[index] = nombre;
+                    selectedEmergencie[index] = false;
+                    index++;
+                }
+
+                binding.selectCard.setOnClickListener(v -> {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Selecciona los tipos de emergencia");
+                    builder.setCancelable(false);
+
+                    builder.setMultiChoiceItems(emergenciesArray, selectedEmergencie, (dialogInterface, i, b) -> {
+                        if (b){
+                            emergenciesList.add(i);
+                        }else{
+                            emergenciesList.remove(i);
+                        }
+                    });
+
+                    builder.setPositiveButton("OK", (dialogInterface, i) -> {
+                        StringBuilder stringBuilder = new StringBuilder();
+
+                        for (int j = 0; j < emergenciesList.size() ; j++) {
+                            stringBuilder.append(emergenciesArray[emergenciesList.get(j)]);
+                            if(j != emergenciesList.size()-1){
+                                stringBuilder.append(", ");
+                            }
+                        }
+                        binding.textCard.setText(stringBuilder.toString());
+
+                        List<String> selectedEmergencies = new ArrayList<>();
+
+                        for (int j = 0; j < emergenciesList.size(); j++) {
+                            int selectedIndex = emergenciesList.get(j);
+                            selectedEmergencies.add(emergenciesArray[selectedIndex]);
+                        }
+
+
+                        for (Map<String, String> cit : emergencies) {
+                            String nombre = cit.get("nombre");
+                            int id = Integer.parseInt(cit.get("id"));
+
+                            if (selectedEmergencies.contains(nombre)) {
+                                selectedIds.add(id);
+                            }
+                        }
+
+                        for (int id : selectedIds) {
+                            System.out.println("ID seleccionado: " + id);
+                        }
+
+                    });
+
+                    builder.setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss());
+                    builder.show();
+                });
+
+
+            });
+        } catch (CertificateException | KeyStoreException | IOException |
+                 NoSuchAlgorithmException | KeyManagementException e) {
+            throw new RuntimeException(e);
+        }
+
 
     }
 
 
-    private void addHouse(int identificacion, String idbarrio) throws CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException, KeyManagementException {
 
-        JSONObject body = new JSONObject();
+
+
+    private void addHouse(int identificacion, String idbarrio) throws CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException, KeyManagementException, JSONException {
+
+        JSONObject bodyHouse = new JSONObject();
 
         try {
-            body.put("identificacionCliente", identificacion);
-            body.put("barrioId", idbarrio);
-            body.put("direccion", Objects.requireNonNull(binding.houseAddress.getEditText()).getText());
-
+            bodyHouse.put("identificacionCliente", identificacion);
+            bodyHouse.put("barrioId", idbarrio);
+            bodyHouse.put("direccion", Objects.requireNonNull(binding.houseAddress.getEditText()).getText());
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            CompletableFuture<Long> casaIdFuture = new CompletableFuture<>();
 
-        postRequest.sendRequest(token,"/api/post/add/house",getContext(),body,response -> {
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, homeFragment).commit();
-            new AlertsHelper().shortToast(getContext(),"Casa Añadida Exitosamente");
-        });
+            postRequest.sendRequest(token, "/api/post/add/house", getContext(), bodyHouse, response -> {
+                JSONObject jsonObject = new JSONObject(response);
+                long casaId = jsonObject.getLong("casaId");
+                casaIdFuture.complete(casaId);
+
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, homeFragment).commit();
+                new AlertsHelper().shortToast(getContext(), "Casa Añadida Exitosamente");
+            });
+
+            casaIdFuture.thenAcceptAsync(casaId -> {
+                JSONObject bodyEmergency = new JSONObject();
+                JSONArray tiposEmergenciasId = new JSONArray(selectedIds);
+                try {
+                    bodyEmergency.put("idCasa", casaId);
+                    bodyEmergency.put("tiposEmergenciasId", tiposEmergenciasId);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+                try {
+                    postRequest.sendRequest(token, "/api/post/add/typeEmergencies", requireContext(), bodyEmergency, resp -> {
+                        Log.d("Respuesta Exitosa" , resp);
+                    });
+                } catch (CertificateException | KeyStoreException | IOException |
+                         KeyManagementException | NoSuchAlgorithmException e) {
+                    throw new RuntimeException(e);
+                }
+            }).exceptionally(ex -> {
+                ex.printStackTrace();
+                return null;
+            });
+
+
+        }
 
     }
 

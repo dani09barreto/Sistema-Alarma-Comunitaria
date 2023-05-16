@@ -108,18 +108,15 @@ public class PostController {
         casaTipoEmergencias.getTiposEmergenciasId().stream()
                 .map(aLong -> tipoEmergenciaService.obtenerTipoEmergenciaById(aLong))
                 .forEach(emergencias::add);
-
-        emergencias.stream()
-                .map(tipoEmergencia -> {
-                   RespuestaEmergencia resp = new RespuestaEmergenciaBuilder()
+ 
+        for (TipoEmergencia tipoEmergencia : emergencias) {
+            RespuestaEmergencia resp = new RespuestaEmergenciaBuilder()
                            .setCasa(casa)
                            .setTipoEmergencia(tipoEmergencia)
                            .build();
-
-                   respuestaEmergenciaService.guardarRespuestaEmergencias(resp);
-
-                    return null;
-                });
+            respuestaEmergenciaService.guardarRespuestaEmergencias(resp);
+        }
+    
         return ResponseEntity.ok("Emergencias añadidas correctamente");
     }
 
