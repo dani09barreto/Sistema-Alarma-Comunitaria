@@ -11,6 +11,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.edu.alarmsystem.R;
+import com.edu.alarmsystem.models.ConfigManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +34,7 @@ import javax.net.ssl.TrustManagerFactory;
 
 public abstract class TemplateGetRequest {
 
-    private static final String IPSERVER = "https://192.168.10.27:8443";
+    private static final String IPSERVER = ConfigManager.getServerIP();
 
     public void sendRequest(String token, String endpoint, Context context, VolleyCallback callback) throws CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException, KeyManagementException {
         SSLSocketFactory sslSocketFactory = settingsSecurity(context);

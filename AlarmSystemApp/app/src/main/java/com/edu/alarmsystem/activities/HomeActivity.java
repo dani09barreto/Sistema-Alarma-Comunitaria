@@ -21,6 +21,7 @@ import com.edu.alarmsystem.R;
 import com.edu.alarmsystem.databinding.ActivityHomeBinding;
 import com.edu.alarmsystem.databinding.ActivityMainBinding;
 import com.edu.alarmsystem.databinding.FragmentSensorsBinding;
+import com.edu.alarmsystem.models.ConfigManager;
 import com.edu.alarmsystem.utils.AlertsHelper;
 
 import org.json.JSONException;
@@ -51,7 +52,7 @@ public class HomeActivity extends Activity {
     HousesFragment housesFragment = new HousesFragment();
     String token;
     private String currentUsername;
-    private static final String IPSERVER = "https://10.0.1.105:8443";
+    private static final String IPSERVER = ConfigManager.getServerIP();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class HomeActivity extends Activity {
         args.putString("currentUsername", currentUsername);
 
         housesFragment.setArguments(args);
+        homeFragment.setArguments(args);
 
         try {
             getCountries();

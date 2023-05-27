@@ -26,6 +26,7 @@ import com.edu.alarmsystem.R;
 import com.edu.alarmsystem.activities.Activity;
 import com.edu.alarmsystem.databinding.ActivityLoginBinding;
 import com.edu.alarmsystem.databinding.ActivitySignUpBinding;
+import com.edu.alarmsystem.models.ConfigManager;
 import com.edu.alarmsystem.utils.AlertsHelper;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -68,7 +69,7 @@ import okhttp3.OkHttpClient;
 public class SignUpActivity extends Activity {
 
     private ActivitySignUpBinding binding;
-    private static final String IPSERVER = "https://192.168.10.27:8443";
+    private static final String IPSERVER = ConfigManager.getServerIP();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

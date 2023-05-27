@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:ignore="HardcodedText">
 
     <item
-        android:id="@+id/nav_account"
-        android:icon="@drawable/ic_baseline_person_24"
-        android:title="Mi cuenta"
+        android:id="@+id/toggle"
+        android:icon="@drawable/baseline_alarm_24"
+        android:title="Activar alarmas"
         android:background="@drawable/menu_item_bg"/>
 
     <item

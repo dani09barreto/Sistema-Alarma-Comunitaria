@@ -55,7 +55,6 @@ public class HousesFragment extends Fragment {
     private final GetRequest request = new GetRequest();
     private final PostRequest postRequest = new PostRequest();
     private boolean isFragmentAttached = false;
-    private static final String IPSERVER = "https://localhost:8443";
 
 
     @Override
@@ -84,6 +83,11 @@ public class HousesFragment extends Fragment {
 
         token = getArguments().getString("token");
         username = requireArguments().getString("currentUsername");
+
+        Bundle args = new Bundle();
+        args.putString("token", token);
+        args.putString("currentUsername", username);
+        homeFragment.setArguments(args);
 
         if (isFragmentAttached && getContext() != null) {
 

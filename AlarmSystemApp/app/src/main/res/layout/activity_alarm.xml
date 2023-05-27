@@ -6,69 +6,47 @@
     android:layout_height="match_parent"
     android:paddingRight="35dp"
     android:paddingLeft="35dp"
-    tools:context=".activities.SensorsFragment">
+    tools:context=".activities.AlarmActivity">
 
     <ImageButton
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:backgroundTint="@android:color/transparent"
         android:clickable="true"
         android:enabled="false"
-        android:backgroundTint="@android:color/transparent"
+        android:focusable="true"
+        android:minHeight="48dp"
         android:src="@drawable/ic_baseline_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
-        android:id="@+id/labelSensorType"
+        android:id="@+id/labelAlerts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Selecciona el tipo de sensor: "
+        android:text="Estado de las alertas en la casa: "
         android:layout_marginEnd="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerHouses" />
 
-    <Spinner
-        android:id="@+id/spinnerSensors"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelSensorType"/>
-
-
     <TextView
-        android:id="@+id/labelNumSensors"
+        android:id="@+id/textAlerts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Digita el número de sensores"
+        android:layout_marginTop="15dp"
+        android:hint="Activas"
+        android:textColor="@color/black_1000"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerSensors" />
+        app:layout_constraintTop_toBottomOf="@+id/labelAlerts" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/cantSensor"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="250dp"
-        android:enabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelNumSensors">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/addBtn"
+        android:id="@+id/addAlert"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -76,7 +54,7 @@
         android:gravity="center"
         android:enabled="false"
         android:letterSpacing="0"
-        android:text="Agregar"
+        android:text="Cambiar Estado"
         android:textAllCaps="false"
         android:textColor="@color/white_1000"
         android:textSize="18sp"
@@ -84,14 +62,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cantSensor" />
+        app:layout_constraintTop_toBottomOf="@+id/textAlerts" />
 
     <TextView
-        android:id="@+id/titleSensors"
+        android:id="@+id/titleAlerts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
-        android:text="Sensores"
+        android:text="Configuración de Alertas"
         android:textColor="@color/black_1000"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -102,13 +80,13 @@
         android:id="@+id/textError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="30dp"
         android:textColor="@color/red_600"
         android:text="No tienes una casa asignada, Primero debes crear una!"
         android:visibility="invisible"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleSensors" />
+        app:layout_constraintTop_toBottomOf="@+id/titleAlerts" />
 
     <TextView
         android:id="@+id/textaddresshouse"
@@ -121,12 +99,13 @@
 
     <Spinner
         android:id="@+id/spinnerHouses"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textaddresshouse"/>
+        app:layout_constraintTop_toBottomOf="@+id/textaddresshouse"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 
 

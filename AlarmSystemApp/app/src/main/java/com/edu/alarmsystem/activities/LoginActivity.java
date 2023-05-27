@@ -17,6 +17,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.edu.alarmsystem.R;
 import com.edu.alarmsystem.databinding.ActivityLoginBinding;
+import com.edu.alarmsystem.models.ConfigManager;
 import com.edu.alarmsystem.utils.AlertsHelper;
 
 import org.json.JSONException;
@@ -47,7 +48,7 @@ public class LoginActivity extends Activity {
     Bundle bundle = new Bundle();
     HousesFragment fragment = new HousesFragment();
     FragmentTransaction transaction;
-    private static final String IPSERVER = "https://192.168.10.27:8443";
+    private static final String IPSERVER = ConfigManager.getServerIP();
 
 
     @Override
