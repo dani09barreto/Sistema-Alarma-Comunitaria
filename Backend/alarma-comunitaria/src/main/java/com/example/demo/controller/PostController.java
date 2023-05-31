@@ -121,7 +121,7 @@ public class PostController {
     }
 
     // Registro de Movimiento
-    @PostMapping("/add/registry/movement/{id}")
+    @PostMapping("/add/registry/movement/id={id}")
     public ResponseEntity <?> createRegistryMovement(@PathVariable Long id){
         Sensor sensor = sensorService.getSensorById(id);
         RegistroMovimiento registroMovimiento = new RegistroMovimientoBuilder()
