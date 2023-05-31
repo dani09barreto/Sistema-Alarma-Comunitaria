@@ -120,17 +120,16 @@ public class PostController {
         return ResponseEntity.ok("Emergencias añadidas correctamente");
     }
 
-    // Registro de Movimiento a sensor de casa de cliente
-    @PostMapping("/add/movimiento/user/id={id}/casa/id={idCasa}/sensor/id={idSensor}")
-    public ResponseEntity <?> createRegistry(@PathVariable Long id, @PathVariable Long idCasa, @PathVariable Long idSensor){
-        Sensor sensor = sensorService.getSensorById(idSensor);
+    // Registro de Movimiento
+    @PostMapping("/add/registry/movement/id={id}")
+    public ResponseEntity <?> createRegistryMovement(@PathVariable Long id){
+        Sensor sensor = sensorService.getSensorById(id);
         RegistroMovimiento registroMovimiento = new RegistroMovimientoBuilder()
                 .setSensor(sensor)
                 .setFecha(LocalDate.now())
                 .build();
         registroMovimientoService.saveRegistroMovimiento(registroMovimiento);
-        return ResponseEntity.ok(new MessageResponse("Registro creado con exito"+ " User= "+ id + " Casa= " + idCasa + " Sensor = " + idSensor));
+        return ResponseEntity.ok(new MessageResponse("Registro creado con exito para el sensor con id: " + id));
     }
-    
 
 }
