@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
@@ -15,13 +14,11 @@ public class MovimientoResponse {
     private Long id;
     private Long sensorId;
     private LocalDate fecha;
-    private LocalDateTime hora;
 
 
-    public MovimientoResponse(Long id, LocalDate fecha, Long id1, LocalDateTime hora) {
+    public MovimientoResponse(Long id, LocalDate fecha, Long id1) {
         this.id = id;
         this.fecha = fecha;
         this.sensorId = id1;
-        this.hora = hora;
     }
 }

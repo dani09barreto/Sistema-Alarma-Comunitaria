@@ -190,9 +190,8 @@ public class GetController {
         List<MovimientoResponse> movimientoResponses = new ArrayList<>();
         registroMovimientos.stream()
                 .map(registroMovimiento -> new MovimientoResponse(registroMovimiento.getId(),
-                        registroMovimiento.getSensor().getId(),
                         registroMovimiento.getFecha(),
-                        registroMovimiento.getHora()))
+                        registroMovimiento.getSensor().getId()))
                 .forEach(movimientoResponses::add);
 
         return ResponseEntity.ok(movimientoResponses);
