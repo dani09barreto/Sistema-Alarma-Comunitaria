@@ -1,6 +1,7 @@
 package com.edu.alarmsystem.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,9 +12,14 @@ import android.widget.ArrayAdapter;
 import com.edu.alarmsystem.databinding.ActivityAlarmBinding;
 import com.edu.alarmsystem.models.CasaResponse;
 import com.edu.alarmsystem.models.GetRequest;
+import com.edu.alarmsystem.models.PostRequest;
 import com.edu.alarmsystem.models.UserResponse;
+import com.edu.alarmsystem.utils.AlertsHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.security.KeyManagementException;
@@ -34,7 +40,9 @@ public class AlarmActivity extends Activity {
     private  UserResponse userResponse;
     private CasaResponse casaResponse;
     private Map<String, Integer> direccionIdMap = new HashMap<>();
-    private final GetRequest request = new GetRequest();
+    private List<Map<String, String>> houses;
+    private final GetRequest getRequest = new GetRequest();
+    private final PostRequest postRequest = new PostRequest();
     public String selectedDireccion;
 
 
@@ -54,15 +62,15 @@ public class AlarmActivity extends Activity {
                 selectedDireccion = adapterView.getItemAtPosition(i).toString();
 
                 try {
-                    request.sendRequest(token, String.format("/api/get/house/id=%s",direccionIdMap.get(selectedDireccion)), getApplicationContext(), response -> {
+                    getRequest.sendRequest(token, String.format("/api/get/house/id=%s",direccionIdMap.get(selectedDireccion)), getApplicationContext(), response -> {
                         casaResponse = new Gson().fromJson(response, CasaResponse.class);
-                        Log.d("OJOOO",casaResponse.getOcupada().toString());
-                        if (casaResponse.getOcupada()){
+                        if (!casaResponse.getOcupada()){
                             binding.textAlerts.setText("Desactivadas");
                             binding.textAlerts.setTextColor(Color.RED);
                         }else{
                             binding.textAlerts.setText("Activadas");
                             binding.textAlerts.setTextColor(Color.GREEN);
+
                         }
 
                     });
@@ -70,6 +78,41 @@ public class AlarmActivity extends Activity {
                          NoSuchAlgorithmException | KeyManagementException e) {
                     throw new RuntimeException(e);
                 }
+
+                binding.changeStateAlert.setOnClickListener(v->{
+                    JSONObject bodyHouse = new JSONObject();
+
+                    for (Map<String, String> cit : houses) {
+                        if(Objects.equals(cit.get("direccion"), selectedDireccion)){
+                            try {
+                                bodyHouse.put("identificacionCliente", cit.get("clienteId"));
+                                bodyHouse.put("barrioId", cit.get("barrioId"));
+                                bodyHouse.put("direccion", selectedDireccion);
+                                if(binding.textAlerts.getText() == "Desactivadas"){
+                                    bodyHouse.put("ocupada",true);
+                                } else {
+                                    bodyHouse.put("ocupada",false);
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        };
+                    }
+                    try {
+                        postRequest.sendRequest(token,String.format("/api/post/id=%s/ocupacion", direccionIdMap.get(selectedDireccion)),getApplicationContext(),bodyHouse,response ->{
+
+                        });
+                    } catch (CertificateException | NoSuchAlgorithmException | KeyStoreException |
+                             IOException | KeyManagementException e) {
+                        throw new RuntimeException(e);
+                    }
+                    new AlertsHelper().shortToast(getApplicationContext(),"Cambio de Estado Exitoso");
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    intent.putExtra("username", username);
+                    intent.putExtra("token", token);
+                    startActivity(intent);
+                });
             }
 
             @Override
@@ -79,7 +122,7 @@ public class AlarmActivity extends Activity {
         });
 
         try {
-            request.sendRequest(token, String.format("/api/get/user=%s", username), getApplicationContext(), response -> {
+            getRequest.sendRequest(token, String.format("/api/get/user=%s", username), getApplicationContext(), response -> {
                 Gson gson = new Gson();
                 userResponse = gson.fromJson(response, UserResponse.class);
                     getInfoHouse(userResponse);
@@ -96,11 +139,11 @@ public class AlarmActivity extends Activity {
 
     @SuppressLint("DefaultLocale")
     private void getInfoHouse(UserResponse userResponse) throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException, CertificateException, IOException {
-        request.sendRequest(token,String.format("/api/get/client=%d/houses", userResponse.getId()),getApplicationContext(),response -> {
+        getRequest.sendRequest(token,String.format("/api/get/client=%d/houses", userResponse.getId()),getApplicationContext(),response -> {
             if(!response.contains("direccion")) {
                 binding.textError.setVisibility(View.VISIBLE);
             } else {
-                List<Map<String, String>> houses = new Gson().fromJson(response, new TypeToken<List<Map<String, String>>>(){}.getType());
+                houses = new Gson().fromJson(response, new TypeToken<List<Map<String, String>>>(){}.getType());
                 List<String> housesBar = new ArrayList<>();
                 for (Map<String, String> cit : houses) {
                     String direccion = cit.get("direccion");

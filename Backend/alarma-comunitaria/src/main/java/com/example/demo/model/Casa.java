@@ -48,4 +48,12 @@ public class Casa {
     public Long getId() {
         return this.id;
     }
+
+    @Override
+    public String toString() {
+        return "Casa [id=" + id + ", cliente=" + cliente + ", barrio=" + barrio + ", direccion=" + direccion
+                + ", ocupada=" + ocupada + "]";
+    }
+
+    
 }

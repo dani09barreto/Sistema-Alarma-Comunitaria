@@ -32,6 +32,13 @@ public class Sensor {
         this.casa = casa;
     }
 
+    @Override
+    public String toString() {
+        return "Sensor [id=" + id + ", tipoSensor=" + tipoSensor + ", casa=" + casa + "]";
+    }
+
     // constructor, getters, and setters
+
+    
 }
 

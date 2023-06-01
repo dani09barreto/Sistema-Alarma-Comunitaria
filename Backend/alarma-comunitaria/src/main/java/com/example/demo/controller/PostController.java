@@ -5,6 +5,7 @@ import com.example.demo.patterns.builder.CasaBuilder;
 import com.example.demo.patterns.builder.RegistroMovimientoBuilder;
 import com.example.demo.patterns.builder.RespuestaEmergenciaBuilder;
 import com.example.demo.patterns.builder.SensorBuilder;
+import com.example.demo.patterns.observer.DatabaseObserverComponent;
 import com.example.demo.payload.request.CasaRequest;
 import com.example.demo.payload.request.CasaTipoEmergencias;
 import com.example.demo.payload.response.CasaResponse;
@@ -63,6 +64,9 @@ public class PostController {
     @Qualifier("repuestaEmergenciaServiceImp")
     @Autowired
     private IRespuestaEmergenciaService respuestaEmergenciaService;
+
+    @Autowired
+    private DatabaseObserverComponent databaseObserverComponent;
 
 
     @PostMapping("/add/house")

@@ -49,5 +49,14 @@ public class Cliente {
         this.correoElectronico = correoElectronico;
     }
 
+    @Override
+    public String toString() {
+        return "Cliente [id=" + id + ", usuario=" + usuario + ", nombre=" + nombre + ", apellido=" + apellido
+                + ", identificacion=" + identificacion + ", celular=" + celular + ", correoElectronico="
+                + correoElectronico + "]";
+    }
+
     // getters y setters
+
+    
 }
