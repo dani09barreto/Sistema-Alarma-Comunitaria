@@ -18,8 +18,4 @@ public class SensorResponse {
     private Long idTipoSensor;
     private String tipoSensor;
 
-
-
-
-
 }

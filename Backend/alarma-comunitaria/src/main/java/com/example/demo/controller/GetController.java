@@ -175,7 +175,8 @@ public class GetController {
         // Get all movements by sensor id
         List<RegistroMovimiento> registroMovimientos = new ArrayList<>();
         sensorIdRegistroMovimientos.stream()
-                .map(sensorId -> registroMovimientoService.getRegistroMovimientoBySensorId(sensorId))
+                .map(sensorId -> registroMovimientoService.getAllRegistroMovimientosBySensorId(sensorId))
+                .filter(registroMovimiento -> registroMovimiento.getSensor().getId().equals(sensorId)))
                 .forEach(registroMovimientos::add);
 
         // Print movements
@@ -190,8 +191,8 @@ public class GetController {
         List<MovimientoResponse> movimientoResponses = new ArrayList<>();
         registroMovimientos.stream()
                 .map(registroMovimiento -> new MovimientoResponse(registroMovimiento.getId(),
-                        registroMovimiento.getSensor().getId(),
                         registroMovimiento.getFecha(),
+                        registroMovimiento.getSensor().getId(),
                         registroMovimiento.getHora()))
                 .forEach(movimientoResponses::add);
 

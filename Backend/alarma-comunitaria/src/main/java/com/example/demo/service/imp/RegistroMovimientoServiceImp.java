@@ -22,7 +22,14 @@ public class RegistroMovimientoServiceImp implements IRegistroMovimientoService 
 
     @Override
     public RegistroMovimiento getRegistroMovimientoBySensorId(Long id) {
+
         return registroMovimientoRepository.findById(id).orElse(null);
+    }
+
+    //Find all
+    @Override
+    public List<RegistroMovimiento> findAll() {
+        return registroMovimientoRepository.findAll();
     }
 
 
