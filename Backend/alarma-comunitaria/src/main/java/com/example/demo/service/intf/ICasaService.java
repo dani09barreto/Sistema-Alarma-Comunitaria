@@ -10,7 +10,7 @@ public interface ICasaService {
     Casa saveCasa(Casa casa);
     Casa getCasaById(Long id);
     List<Casa> getAllCasas();
-
     Casa getCasaByCliente(Cliente cliente);
+    Casa updateCasa(Casa casa);
 
 }

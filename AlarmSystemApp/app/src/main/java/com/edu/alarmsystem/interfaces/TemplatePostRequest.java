@@ -27,6 +27,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -51,7 +52,8 @@ public abstract class TemplatePostRequest {
             try {
                 callback.getInfo(response.toString());
             } catch (JSONException | CertificateException | KeyStoreException | IOException |
-                     NoSuchAlgorithmException | KeyManagementException e) {
+                     NoSuchAlgorithmException | KeyManagementException | ExecutionException |
+                     InterruptedException e) {
                 throw new RuntimeException(e);
             }
         },error -> {

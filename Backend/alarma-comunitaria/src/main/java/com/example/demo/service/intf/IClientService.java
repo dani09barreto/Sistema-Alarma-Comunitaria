@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public interface IClientService {
     List <Cliente> findAll();
-    Optional<Cliente> findById(Long id);
+    Cliente findById(Long id);
     Cliente save(Cliente cliente);
     void deleteById(Long id);
     Boolean existsByCedula(Long cedula);

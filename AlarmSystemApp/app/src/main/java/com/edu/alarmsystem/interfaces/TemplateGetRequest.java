@@ -25,6 +25,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -45,12 +46,13 @@ public abstract class TemplateGetRequest {
 
         String url = IPSERVER + endpoint;
         Request request;
-        if(endpoint.contains("user")){
+        if(endpoint.contains("user") || endpoint.contains("house/id=")){
             request = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
                 try {
                     callback.getInfo(response.toString());
                 } catch (JSONException | KeyManagementException | NoSuchAlgorithmException |
-                         IOException | KeyStoreException | CertificateException e) {
+                         IOException | KeyStoreException | CertificateException |
+                         ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
 
@@ -76,7 +78,8 @@ public abstract class TemplateGetRequest {
                 try {
                     callback.getInfo(response.toString());
                 } catch (JSONException | KeyManagementException | NoSuchAlgorithmException |
-                         IOException | KeyStoreException | CertificateException e) {
+                         IOException | KeyStoreException | CertificateException |
+                         ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
 

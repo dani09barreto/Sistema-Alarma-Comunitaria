@@ -33,4 +33,10 @@ public class CasaServiceImp implements ICasaService {
         return casaRepository.findByCliente(cliente);
     }
 
+    @Override
+    public Casa updateCasa(Casa casa) {
+        return casaRepository.save(casa);
+    }
+
+    
 }

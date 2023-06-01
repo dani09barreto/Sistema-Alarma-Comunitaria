@@ -80,21 +80,20 @@ public class GetController {
         Casa casa = casaService.getCasaById(id);
         // Get client by id
         casaRequest.setIdentificacionCliente(casa.getIdentificacionCliente());
-        Optional<Cliente> client = clientService.findById(casa.getIdentificacionCliente());
-        casaRequest.setNombre(client.get().getNombre());
+        Cliente client = clientService.findById(casa.getIdentificacionCliente());
 
         // Get barrio by id
         Barrio barrio = barrioService.getBarrioById(casa.getBarrio().getId());
         casaRequest.setBarrioId(casa.getBarrio().getId());
-        casaRequest.setBarrioNombre(barrio.getNombre());
         casaRequest.setDireccion(casa.getDireccion());
+        casaRequest.setOcupada(casa.getOcupada());
         return ResponseEntity.ok(casaRequest);
 
     }
 
     @GetMapping("/user={id}/house")
     public ResponseEntity<?> getHouseByClient(@PathVariable Long id) {
-        Cliente cliente = clientService.findById(id).get();
+        Cliente cliente = clientService.findById(id);
         Casa casa = casaService.getCasaByCliente(cliente);
         if (casa == null) {
             return ResponseEntity.noContent().build();
@@ -115,7 +114,8 @@ public class GetController {
         Cliente cliente = clientService.findByUsuario(user);
         UserResponse userResponse = new UserResponse(
                 cliente.getId(),
-                cliente.getIdentificacion()
+                cliente.getIdentificacion(),
+                cliente.getCorreoElectronico()
         );
         return ResponseEntity.ok(userResponse);
     }

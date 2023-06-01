@@ -10,10 +10,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CasaResponse {
-    private Long casaId;
     private String direccion;
     private Long clienteId;
     private Long barrioId;
+    private Boolean ocupada;
 
     public CasaResponse(Long id) {
 
@@ -22,5 +22,43 @@ public class CasaResponse {
 
     public String getDireccion() {
         return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public Long getClienteId() {
+        return clienteId;
+    }
+
+    public void setClienteId(Long clienteId) {
+        this.clienteId = clienteId;
+    }
+
+    public Long getBarrioId() {
+        return barrioId;
+    }
+
+    public void setBarrioId(Long barrioId) {
+        this.barrioId = barrioId;
+    }
+
+    public Boolean getOcupada() {
+        return ocupada;
+    }
+
+    public void setOcupada(Boolean ocupada) {
+        this.ocupada = ocupada;
+    }
+
+    @Override
+    public String toString() {
+        return "CasaResponse{" +
+                "direccion='" + direccion + '\'' +
+                ", clienteId=" + clienteId +
+                ", barrioId=" + barrioId +
+                ", ocupada=" + ocupada +
+                '}';
     }
 }

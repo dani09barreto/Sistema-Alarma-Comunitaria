@@ -14,4 +14,5 @@ public interface IClientRepository extends JpaRepository<Cliente, Long> {
     Cliente findByIdentificacion(Long identificacion);
     Cliente findByUsuario(User usuario);
 
+
 }

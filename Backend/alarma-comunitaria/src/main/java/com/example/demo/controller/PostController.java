@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -138,6 +139,20 @@ public class PostController {
         return ResponseEntity.ok(new MessageResponse(
             "Registro creado con exito para el sensor con id: " + id + " Fecha " + LocalDate.now().toString()
             + "Hora: " + ZonedDateTime.now(ZoneId.of("America/Bogota")).toLocalDateTime().toString()));
+    }
+
+    @PostMapping("/id={id}/ocupacion")
+    public ResponseEntity<String> updateCasa(@PathVariable Long id, @RequestBody CasaRequest casaRequest) {
+        
+        Casa casa = casaService.getCasaById(id);
+        Barrio barrio = barrioService.getBarrioById(casaRequest.getBarrioId());
+        Cliente cliente = clientService.findById(casaRequest.getIdentificacionCliente());
+        casa.setOcupada(casaRequest.getOcupada());
+        casa.setBarrio(barrio);
+        casa.setCliente(cliente);
+        casa.setDireccion(casaRequest.getDireccion());
+        casaService.saveCasa(casa);
+        return ResponseEntity.ok("Ocupación actualizada correctamente");
     }
 
 }

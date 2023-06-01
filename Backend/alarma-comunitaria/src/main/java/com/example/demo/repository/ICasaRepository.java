@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ICasaRepository extends JpaRepository<Casa, Long> {
     Casa findByCliente(Cliente cliente);
+
 }

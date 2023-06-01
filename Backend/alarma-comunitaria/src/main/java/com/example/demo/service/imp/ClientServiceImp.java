@@ -22,8 +22,8 @@ public class ClientServiceImp implements IClientService {
     }
 
     @Override
-    public Optional<Cliente> findById(Long id) {
-        return clientRepository.findById(id);
+    public Cliente findById(Long id) {
+        return clientRepository.findById(id).get();
     }
 
     @Override

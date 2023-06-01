@@ -52,7 +52,6 @@
         android:layout_marginTop="28dp"
         android:elevation="8dp"
         android:gravity="center"
-        android:enabled="false"
         android:letterSpacing="0"
         android:text="Cambiar Estado"
         android:textAllCaps="false"
