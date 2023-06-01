@@ -22,9 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,18 +123,13 @@ public class PostController {
     // Registro de Movimiento
     @PostMapping("/add/registry/movement/id={id}")
     public ResponseEntity <?> createRegistryMovement(@PathVariable Long id){
-
         Sensor sensor = sensorService.getSensorById(id);
-
         RegistroMovimiento registroMovimiento = new RegistroMovimientoBuilder()
                 .setSensor(sensor)
                 .setFecha(LocalDate.now())
-                .setHora(ZonedDateTime.now(ZoneId.of("America/Bogota")).toLocalDateTime())
                 .build();
         registroMovimientoService.saveRegistroMovimiento(registroMovimiento);
-        return ResponseEntity.ok(new MessageResponse(
-            "Registro creado con exito para el sensor con id: " + id + " Fecha " + LocalDate.now().toString()
-            + "Hora: " + ZonedDateTime.now(ZoneId.of("America/Bogota")).toLocalDateTime().toString()));
+        return ResponseEntity.ok(new MessageResponse("Registro creado con exito para el sensor con id: " + id));
     }
 
 }
