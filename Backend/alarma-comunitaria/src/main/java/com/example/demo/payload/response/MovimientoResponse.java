@@ -20,5 +20,6 @@ public class MovimientoResponse {
         this.id = id;
         this.fecha = fecha;
         this.sensorId = id1;
+
     }
 }
