@@ -12,7 +12,6 @@ public class RegistroMovimientoBuilder implements IBuilder <RegistroMovimiento>{
 
     private LocalDate fecha;
 
-    private LocalDateTime hora;
 
     public RegistroMovimientoBuilder setSensor(Sensor sensor) {
         this.sensor = sensor;
@@ -24,14 +23,10 @@ public class RegistroMovimientoBuilder implements IBuilder <RegistroMovimiento>{
         return this;
     }
 
-    public RegistroMovimientoBuilder setHora(LocalDateTime hora){
-        this.hora = hora;
-        return this;
-    }
 
 
     @Override
     public RegistroMovimiento build() {
-        return new RegistroMovimiento(sensor, fecha, hora);
+        return new RegistroMovimiento(sensor, fecha );
     }
 }
