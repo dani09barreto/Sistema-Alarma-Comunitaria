@@ -139,6 +139,7 @@ public class PostController {
                 .setFecha(LocalDate.now())
                 .build();
 
+
         registroMovimientoService.saveRegistroMovimiento(registroMovimiento);
         return ResponseEntity.ok(new MessageResponse("Registro creado con exito para el sensor con id: " + sensor.getId()
                 + " en la fecha: " + LocalDate.now() + " a las: " + ZonedDateTime.now(ZoneId.of("America/Bogota")).toLocalDateTime()
