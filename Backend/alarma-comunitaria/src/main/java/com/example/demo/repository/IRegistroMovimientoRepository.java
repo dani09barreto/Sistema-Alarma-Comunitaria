@@ -9,5 +9,4 @@ import java.util.List;
 @Repository
 public interface IRegistroMovimientoRepository extends JpaRepository<RegistroMovimiento, Long> {
     List<RegistroMovimiento> getRegistroMovimientoBySensorId(Long id);
-    List<RegistroMovimiento> findAll();
 }

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -134,9 +135,6 @@ public class PostController {
                 .setHora(ZonedDateTime.now(ZoneId.of("America/Bogota")).toLocalDateTime())
                 .build();
         registroMovimientoService.saveRegistroMovimiento(registroMovimiento);
-
-
-        
         return ResponseEntity.ok(new MessageResponse(
             "Registro creado con exito para el sensor con id: " + id + " Fecha " + LocalDate.now().toString()
             + "Hora: " + ZonedDateTime.now(ZoneId.of("America/Bogota")).toLocalDateTime().toString()));
